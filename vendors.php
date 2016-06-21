@@ -18,7 +18,7 @@
 
     function getVendor(){               //retrieve a vendor obj given a vendor id
       $tempClient = clientCreator::getInstance();
-      $response = $tempClient->request('GET',"vendors/$this.{vendorToken}");
+      $response = $tempClient->request('GET',"vendors/$this->vendorToken");
       $body = $response->getBody();
 
       echo $body."\n";
