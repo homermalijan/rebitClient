@@ -1,5 +1,6 @@
 <?php
   use GuzzleHttp\Client;
+  use GuzzleHttp\Psr7\Request;
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
@@ -10,7 +11,11 @@
   ]);
 
   $response = $vendors->request('GET',"vendors/${vendorToken}");
-  $response = $vendors->request('PUT',"vendors/${vendorToken}");
+  $body = $response->getBody();
 
-  echo "heller\n";
+  echo $body."\n";
+  echo $response->getStatusCode()."\n"; // 200
+  echo $response->getReasonPhrase()."\n"; // OK
+  echo $response->getProtocolVersion()."\n"; // 1.1
+
 ?>
