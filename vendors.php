@@ -1,18 +1,30 @@
 <?php
   use GuzzleHttp\Client;
   use GuzzleHttp\Psr7\Request;
+
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  $vendorToken = 'xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X';
+  require 'clientCreator.php';
 
-  $vendors = new GuzzleHttp\Client([
-    'base_uri' => 'https://rebit.ph/api/v1/',
-  ]);
 
-  $response = $vendors->request('GET',"vendors/${vendorToken}");
-  $body = json_decode($response->getBody(), true);
-  $data = json_encode($body['vendor'])."\n";
-  echo $data;
+  class Vendors{
+    var $vendorToken; //vendor id
+    var $vendors;     //vendor client
 
-?>
+    function __construct($vendorToken){
+      $this->vendorToken = $vendorToken;
+    }//close constructor
+
+    function getVendor(){               //retrieve a vendor obj given a vendor id
+      $tempClient = clientCreator::getInstance();
+      $response = $tempClient->request('GET',"vendors/$this->vendorToken");
+      $body = json_decode($response->getBody(), true);
+      $data = json_encode($body['vendor'])."\n";
+
+      echo $data."\n";
+    }//close getVendor
+  }//close class
+
+  $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
+  $newVendor->getVendor();
