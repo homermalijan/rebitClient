@@ -1,8 +1,12 @@
 <?php
   use GuzzleHttp\Client;
+<<<<<<< HEAD
   use Guzzle\Http\EntityBody;
   use Guzzle\Http\Message\Request;
   use Guzzle\Http\Message\Response;
+=======
+  use GuzzleHttp\Psr7\Request;
+>>>>>>> 5eacaefa1f079fde2ad254c4b73672c0638951fe
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
@@ -12,11 +16,12 @@
     'base_uri' => 'https://rebit.ph/api/v1/',
   ]);
 
-  $request = $vendors->get("vendors/${vendorToken}");
-  $response = $request->send();
-  //$response = $vendors->request('GET',"vendors/${vendorToken}");
-  //echo "$response";
-  //$response = $vendors->request('PUT',"vendors/${vendorToken}");
+  $response = $vendors->request('GET',"vendors/${vendorToken}");
+  $body = $response->getBody();
 
-  echo "heller\n";
+  echo $body."\n";
+  echo $response->getStatusCode()."\n"; // 200
+  echo $response->getReasonPhrase()."\n"; // OK
+  echo $response->getProtocolVersion()."\n"; // 1.1
+
 ?>
