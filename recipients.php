@@ -12,9 +12,9 @@
 
   $response = $recipients->request('POST','recipients');
   $response = $recipients->request('GET','recipients');
-  $response = $recipients->request('GET','recipients/xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
-  $response = $recipients->request('PUT','recipients/xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
-  $response = $recipients->request('DELETE','recipients/xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
+  $response = $recipients->request('GET','recipients/${id}');
+  $response = $recipients->request('PUT','recipients/${id}');
+  $response = $recipients->request('DELETE','recipients/${id}');
 
   echo "heller\n";
 ?>

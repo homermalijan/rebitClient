@@ -14,7 +14,6 @@
         self::$client = new GuzzleHttp\Client([      //create new vendor client
           'base_uri' => 'https://rebit.ph/api/v1/',
         ]);
-        echo 'created';
       }
       return self::$client;
     }
