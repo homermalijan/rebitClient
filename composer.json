@@ -1,0 +1,12 @@
+{
+    "name": "rebit client",
+    "authors": [
+        {
+            "name": "Homer and Carlo Forever <3 <3",
+            "email": "hehehehe@gmail.com"
+        }
+    ],
+    "require": {
+              "guzzle/guzzle": "~3.7"
+    }
+}
