@@ -1,5 +1,8 @@
 <?php
   use GuzzleHttp\Client;
+  use Guzzle\Http\EntityBody;
+  use Guzzle\Http\Message\Request;
+  use Guzzle\Http\Message\Response;
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
@@ -9,8 +12,11 @@
     'base_uri' => 'https://rebit.ph/api/v1/',
   ]);
 
-  $response = $vendors->request('GET',"vendors/${vendorToken}");
-  $response = $vendors->request('PUT',"vendors/${vendorToken}");
+  $request = $vendors->get("vendors/${vendorToken}");
+  $response = $request->send();
+  //$response = $vendors->request('GET',"vendors/${vendorToken}");
+  //echo "$response";
+  //$response = $vendors->request('PUT',"vendors/${vendorToken}");
 
   echo "heller\n";
 ?>
