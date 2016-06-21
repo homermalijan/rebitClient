@@ -1,12 +1,7 @@
 <?php
   use GuzzleHttp\Client;
-<<<<<<< HEAD
-  use Guzzle\Http\EntityBody;
-  use Guzzle\Http\Message\Request;
-  use Guzzle\Http\Message\Response;
-=======
   use GuzzleHttp\Psr7\Request;
->>>>>>> 5eacaefa1f079fde2ad254c4b73672c0638951fe
+
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
