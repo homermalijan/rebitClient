@@ -11,11 +11,8 @@
   ]);
 
   $response = $vendors->request('GET',"vendors/${vendorToken}");
-  $body = $response->getBody();
-
-  echo $body."\n";
-  echo $response->getStatusCode()."\n"; // 200
-  echo $response->getReasonPhrase()."\n"; // OK
-  echo $response->getProtocolVersion()."\n"; // 1.1
+  $body = json_decode($response->getBody(), true);
+  $data = json_encode($body['vendor'])."\n";
+  echo $data;
 
 ?>
