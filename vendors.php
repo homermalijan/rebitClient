@@ -18,7 +18,7 @@
 		}//close constructor
 
 		//get vendor details based on vendorToken
-		function getVendor(){
+		function getVendor() {
 			$response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
 			$body = json_decode($response->getBody(), true);
 			$data = json_encode($body['vendor']);
@@ -27,24 +27,27 @@
 			return $data;
 		}//close getVendor
 
-    function  updateVendor($param){
-      $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", $param);
-      return true;
+    function  updateVendor($param) {
+      $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $param]);
+      // echo $response->getBody();
+      echo $response->getStatusCode();
     }
 	}//close class
 
+
+//=========================================================================================================================
   $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
   $newVendor->getVendor();
   $put_data = array(
     'vendor' => array(
-      "id"=> 1,
-      "name"=> "Bit",
-      "url"=> "http://www.example.com",
-      "logo_url"=> "http://www.example.com/logo.jpg",
-      "phone"=> "90000000",
-      "email"=> "hello@example.com",
-      "active"=> true,
-      "user_ids"=> [
+      'id'=> 1,
+      'name'=> 'Bit',
+      'url'=> 'http://www.example.com',
+      'logo_url'=> 'http://www.example.com/logo.jpg',
+      'phone'=> '90000000',
+      'email'=> 'hello@example.com',
+      'active'=> true,
+      'user_ids'=> [
         1,
         2,
         3
@@ -53,6 +56,7 @@
   );
 
   $newVendor->updateVendor(json_encode($put_data));
+//=========================================================================================================================
 
 
 //close main php
