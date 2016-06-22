@@ -1,22 +1,22 @@
 <?php
-  use GuzzleHttp\Client;
-  use GuzzleHttp\Psr7\Request;
+	use GuzzleHttp\Client;
+	use GuzzleHttp\Psr7\Request;
 
-  chdir(dirname(__DIR__));
+	chdir(dirname(__DIR__));
 
-  require 'vendor/autoload.php';
+	require 'vendor/autoload.php';
 
-  class clientCreator{
-    private static $client;
+	class clientCreator{
+		private static $client;
 
-    public static function getInstance(){
-      if(!self::$client){
-        self::$client = new GuzzleHttp\Client([      //create new vendor client
-          'base_uri' => 'https://rebit.ph/api/v1/',
-        ]);
-      }
-      return self::$client;
-    }
-
-  }//close class
+		//return static variable client; creates new instance if null
+		public static function getInstance() {
+			if(!self::$client) {
+				self::$client = new GuzzleHttp\Client([
+				  'base_uri' => 'https://rebit.ph/api/v1/',
+				]);
+			}
+			return self::$client;
+		}//close getInstance
+	}//close class clientCreator
 ?>
