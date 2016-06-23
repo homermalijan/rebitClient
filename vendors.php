@@ -29,7 +29,7 @@
 
     function  updateVendor($param) {
       $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $param]);
-      // echo $response->getBody();
+      echo $response->getBody();
       echo $response->getStatusCode();
     }
 	}//close class
