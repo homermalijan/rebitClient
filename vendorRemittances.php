@@ -14,16 +14,16 @@
 
     function showRemittances($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances");
-      echo $response->getBody()."\n\n\n";
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['remittance_ids']);
+      return $response;
     }
 
     function showRemittanceInfo($vendorToken, $userId, $remittanceId){
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
-      $body = json_decode($response->getBody(), true);
-      $body = json_encode($body['recipient']);
-      echo $body;
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['recipient']);
+      return $response;
     }
   }
-
-
 ?>
