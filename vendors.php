@@ -6,7 +6,6 @@
   require 'vendor/autoload.php';
   require 'clientCreator.php';
 
-
 	class Vendors {
 		var $vendorToken; 		//vendor id
 
@@ -70,6 +69,9 @@
       echo $response->getStatusCode();
     }
 
+
+
 	}//close class
+
 //close main php
 ?>
