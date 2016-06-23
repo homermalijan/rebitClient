@@ -96,3 +96,55 @@ $post_data = array(
     'is_test'=> false
   )
 )
+
+(
+  'recipient'=> array(
+    'id'=> 1,
+    'user_id'=> 1,
+    'first_name'=> 'First',
+    'middle_name'=> null,
+    'last_name'=> 'Last',
+    'email'=> null,
+    'mobile'=> '0917xxxxxxx',
+    'address'=> null,
+    'city'=> null,
+    'province'=> null,
+    'postal_code'=> null,
+    'created_at'=> '2016-05-04T11=>34=>14.096+08=>00',
+    'updated_at'=> '2016-05-04T11=>34=>14.096+08=>00',
+    'deleted_at'=> null,
+    'created_via_api'=> true,
+    'deleted'=> false,
+    'business_name'=> null,
+    'business_slug'=> null,
+    'is_test'=> false
+  ),
+  'remittance_ids'=> [
+    1,
+    2,
+    3
+  ]
+)
+
+(
+  'recipient'=> array(
+    'id'=> 1,
+    'user_id'=> 1,
+    'first_name'=> 'First',
+    'middle_name'=> null,
+    'last_name'=> 'Last',
+    'email'=> null,
+    'mobile'=> '0917xxxxxxx',
+    'address'=> null,
+    'city'=> null,
+    'province'=> null,
+    'postal_code'=> null,
+    'created_at'=> '2016-05-04T11=>34=>14.096+08=>00',
+    'updated_at'=> '2016-05-04T11=>34=>14.096+08=>00',
+    'deleted_at'=> null,
+    'created_via_api'=> true,
+    'deleted'=> false,
+    'business_name'=> null,
+    'business_slug'=> null,
+    'is_test'=> false
+)
