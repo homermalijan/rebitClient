@@ -21,38 +21,38 @@
 			$response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
 			$body = json_decode($response->getBody(), true);
 			$data = json_encode($body['vendor']);
-      echo $data;
 			//return json object
 			return $data;
 		}//close getVendor
 
+    //update vendor attributes with given params
     function  updateVendor($param) {
       $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $param]);
-      echo "\n".$response->getStatusCode()."\n";
     }
 
+    //return all users associated with this vendor
     function getUsers() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-
       return $response->getBody();
     }
 
+    //return specific user associated with this vendor
     function getUser($userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
       $body = json_decode($response->getBody(), true);
       $data = json_encode($body['user']);
-
-      echo $data;
+      return $data;
     }
 
+    //return specific user associated with this vendor via given email
     function getUserByEmail($userEmail) {
       $userEmail = str_replace("@", "%40", $userEmail);
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/find_by_email?email=$userEmail");
       $body = json_decode($response->getBody(), true);
       $data = json_encode($body['user']);
-
-      echo $data;
+      return $data;
     }
+
 	}//close class
 
 
