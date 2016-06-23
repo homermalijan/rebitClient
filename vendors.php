@@ -1,5 +1,6 @@
 <?php
   use GuzzleHttp\Client;
+  use GuzzleHttp\Exception\RequestException;
 
   chdir(dirname(__DIR__));
 
@@ -49,12 +50,35 @@
     function getUserByEmail($userEmail) {
       $userEmail = str_replace("@", "%40", $userEmail);
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/find_by_email?email=$userEmail");
-      $body = json_decode($response->getBody(), true);
-      $data = json_encode($body['user']);
-
-      echo $data;
+      echo json_encode(json_decode($response->getBody(), true)['user'])."\n";
+      // $body = json_decode($response->getBody(), true);
+      // $data = json_encode($body['user']);
+      // echo $data;
     }
-	}//close class
+
+    function showCreditTransactions() {
+    try {
+       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/credits");
+      throw new Exception($response->getResponse()->getBody());
+    }
+    }
+    function showCredit($creditId) {
+      try {
+        $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/credits/$creditId");
+      } catch (GuzzleHttp\Exception\ServerException $exception) {
+        echo json_decode($exception->getResponse()->getBody(), true)['error']."\n";
+        // echo "Internal Server Error";
+        return null;
+      }
+    }
+
+    function makeCredit($param) {
+      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/credits", ['json' => $param]);
+
+    }
+
+
+  }//close class
 
 
 //=========================================================================================================================
@@ -78,9 +102,28 @@
   // );
   //
   // $newVendor->updateVendor(json_encode($put_data));
-  // $newVendor->getUsers(); 
+  // $newVendor->getUsers();
   // $newVendor->getUser(10876);
-  $newVendor->getUserByEmail("jomel150@yahoo.com");
+  // $newVendor->getUserByEmail("jomel150@yahoo.com");
+  $newVendor->showCreditTransactions();
+  // $newVendor->showCredit(50);
+
+    // $put_data = array(
+    //   'id'=> 1,
+    //   'vendor_id'=> 10876,
+    //   'invoice_address'=> "",
+    //   'refreshed_at'=> "2016-05-03T10:11:18.554+08:00",
+    //   'effective_rate'=> 20355.0018,
+    //   'credits'=> [
+    //     0
+    //   ]
+    // );
+    //
+    // $newVendor->makeCredit($put_data);
+    // $newVendor->showCredit(1);
+
+
+
 
 
 //=========================================================================================================================
