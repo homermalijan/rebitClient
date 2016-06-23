@@ -4,7 +4,6 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
 
   class Users {
     var $userToken; //user token

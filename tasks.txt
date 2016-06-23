@@ -10,7 +10,6 @@ Vendor remittances
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/remittances	VENDORS: Initiate a new money transfer by providing a recipient_id and a remittance hash. (VENDOR partner version)
 DELETE /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/:id	VENDORS: Cancel a remittance. Note that this only changes the status of the remittance but does not delete it from the database. (VENDOR partner version)
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/calculate	VENDORS: Returns the processing fee and service fee for a given remittance amount, strategy, and province, scoped by user and vendor.
-Vendor user uploads
 
 Vendor user uploads *issues*
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/uploads	VENDORS: Upload user photo ID, for KYC purposes
