@@ -22,12 +22,12 @@
 
     function updateUser ($param) {  //updates user given a valid user token
       $response = clientCreator::getInstance()->request('PUT', "user?token=$this->userToken", ['json' => $param]);
-      echo $response->getStatusCode();
+      //echo $response->getStatusCode();
     }
   }
 
   $newUser = new Users ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');  //new user
-  $newUser->getUser();
+//  $newUser->getUser();
   $put_data = array(  //sample data
     'user' => array(
       'first_name'=> 'JC Carlo',
@@ -37,7 +37,7 @@
       'city'=>       'Calamba City'
     )
   );
-  $newUser->updateUser($put_data);
-    $newUser->getUser()
+  //$newUser->updateUser($put_data);
+  $newUser->getUser();
 
 ?>
