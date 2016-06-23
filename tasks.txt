@@ -14,9 +14,8 @@ DELETE /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/:id	VENDORS:
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/calculate	VENDORS: Returns the processing fee and service fee for a given remittance amount, strategy, and province, scoped by user and vendor.
 Vendor user uploads
 
-Vendor user uploads
+Vendor user uploads *issues*
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/uploads	VENDORS: Upload user photo ID, for KYC purposes
-
 
 Vendor users
 POST /api/v1/vendors/:vendor_api_token/users	VENDORS: Create a new user under your Vendor account
