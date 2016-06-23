@@ -102,4 +102,12 @@
   // //$newUser->updateUser($put_data);
   // $newUser->getUser();
 
+
+
+    $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
+    $newRemittances = new VendorRemittances(1);
+
+    $newRemittances->showRemittances($newVendor->vendorToken, 10876);
+    $newRemittances->showRemittanceInfo($newVendor->vendorToken, 10876, 56097);
+
 ?>
