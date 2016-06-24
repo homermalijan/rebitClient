@@ -9,7 +9,7 @@
 		var $vendorToken; 		//vendor id
 
 		//constructor
-		function __construct($vendorToken){
+		function __construct($vendorToken) {
 			//initialize vendor token from parameter received
 			$this->vendorToken = $vendorToken;
 
@@ -32,9 +32,7 @@
     //return all users associated with this vendor
     function getUsers() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+      echo $response->getBody();
     }
 
     //return specific user associated with this vendor
@@ -42,7 +40,7 @@
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
       $body = json_decode($response->getBody(), true);
       $data = json_encode($body['user']);
-      return $data;
+      echo $data;
     }
 
     //return specific user associated with this vendor via given email
@@ -56,29 +54,35 @@
 
     //--------ISSUES HERE--------
     //uploads new image for a user given a userId
-    function uploadPhoto($userId, $encodedImage){
+    function uploadPhoto($userId, $encodedImage) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/data=>image/jpg;base64".$encodedImage);
     }
     //---------------------------
 
     //update user with given userId with given put_data
-    function updateUser($userId, $put_data){
+    function updateUser($userId, $put_data) {
       $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
+      echo $response->getStatusCode();
+    }
+
+    function showOutgoingRemittances($userId) {
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
+      echo $response->getBody();
     }
 
     //get details of a credit given a creditId
-    function getCredits($creditId, $get_data){
+    function getCreditInfo($creditId, $get_data) {
       $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits/$creditId", ['json' => $get_data]);
       $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
+      $data = json_encode($body['credit']); // encodes back to json with out the user key
       return $data;
     }
 
     //get credit transaction of a given data
-    function getCreditTransactions($get_data){
-      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits", ['json' => $get_data]);
+    function getCreditTransactions() {
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
       $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
+      $data = json_encode($body['credit']); // encodes back to json with out the user key
       return $data;
     }
 
