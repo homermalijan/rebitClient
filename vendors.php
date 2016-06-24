@@ -87,6 +87,11 @@
     function addUser($post_data){
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $post_data]);
     }
+
+    function deleteUser($userId){
+      $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
+      echo $response->getStatusCode();
+    }
 	}//close Vendor class
 
 //close main php
