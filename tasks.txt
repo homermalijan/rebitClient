@@ -1,7 +1,7 @@
 Vendor credits
-GET /api/v1/vendors/:vendor_api_token/credits/:id	VENDORS: Retrieve a credit address, its rate, and effectivity
+*issue: not yet tested* GET /api/v1/vendors/:vendor_api_token/credits/:id	VENDORS: Retrieve a credit address, its rate, and effectivity
 POST /api/v1/vendors/:vendor_api_token/credits	VENDORS: Create a new address and get a new rate
-GET /api/v1/vendors/:vendor_api_token/credits	VENDORS: Show a list of credit transactions
+*issue: not yet tested* GET /api/v1/vendors/:vendor_api_token/credits	VENDORS: Show a list of credit transactions
 
 Vendor recipients
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/recipients	VENDORS: Create a new recipient for a user belonging to a VENDOR partner.
@@ -12,7 +12,6 @@ GET /api/v1/vendors/:vendor_api_token/users/:user_id/outgoing_remittances	VENDOR
 
 Vendor remittances
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/remittances	VENDORS: Initiate a new money transfer by providing a recipient_id and a remittance hash. (VENDOR partner version)
-DELETE /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/:id	VENDORS: Cancel a remittance. Note that this only changes the status of the remittance but does not delete it from the database. (VENDOR partner version)
 POST /api/v1/vendors/:vendor_api_token/users/:user_id/remittances/calculate	VENDORS: Returns the processing fee and service fee for a given remittance amount, strategy, and province, scoped by user and vendor.
 
 Vendor user uploads *issues*
@@ -21,5 +20,5 @@ POST /api/v1/vendors/:vendor_api_token/users/:user_id/uploads	VENDORS: Upload us
 Vendor users
 POST /api/v1/vendors/:vendor_api_token/users	VENDORS: Create a new user under your Vendor account
 POST /api/v1/vendors/:vendor_api_token/users/instant_remit	VENDORS: Quick rebittance from an existing user
-PUT /api/v1/vendors/:vendor_api_token/users/:id/update_password	VENDORS: Change the password of a user belonging to your Vendor account
+*issue: cannot get an existing user id* PUT /api/v1/vendors/:vendor_api_token/users/:id/update_password	VENDORS: Change the password of a user belonging to your Vendor account
 DELETE /api/v1/vendors/:vendor_api_token/users/:id	VENDORS: Delete a user belonging to this VENDOR partner

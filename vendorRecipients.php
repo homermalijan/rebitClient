@@ -12,30 +12,37 @@
       $this->recipientId = $recipientId;
     }
 
+    //create a new recipient from a user to a new vendor
     function createRecipient($vendorToken, $userId, $post_data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId", ['json' => $post_data]);
-      echo $response->getStatusCode();
     }
 
+    //get list of recipients from a vendor
     function getRecipient($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients");
-      echo $response->getBody();
+      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $data = json_encode($body['user']); // encodes back to json with out the user key
+      return $data;
     }
 
+    //get details of a recipient user from a vendor
     function getRecipientDetail($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
-      echo $response->getStatusCode();
+      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $data = json_encode($body['user']); // encodes back to json with out the user key
+      return $data;
     }
 
+    //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function updateRecipient($vendorToken, $userId, $recipientId, $put_data){
       $response = clientCreator::getInstance()->request('PUT',"vendors/$vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
-      echo $response->getStatusCode();
     }
 
+    //delete a recipient from put_data via recipient_id of auser belonging to a vendor
     function deleteRecipient($vendorToken, $userId, $recipientId){
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
-      echo $response->getStatusCode();
     }
 
-  }
+  }//close VendorRecipient class
+
 ?>
