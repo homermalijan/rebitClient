@@ -21,7 +21,7 @@
 			$body = json_decode($response->getBody(), true);
 			$data = json_encode($body['vendor']);
 			//return json object
-			echo $data;
+			return $data;
 		}//close getVendor
 
     //update vendor attributes with given params
@@ -32,32 +32,35 @@
     //return all users associated with this vendor
     function getUsers() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-      echo $response->getBody();
+      return $response->getBody();
     }
 
     //return specific user associated with this vendor
     function getUser($userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
-      $body = json_decode($response->getBody(), true);
-      $data = json_encode($body['user']);
-      echo $data;
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['user']);
+      return $response;
     }
 
     //return specific user associated with this vendor via given email
     function getUserByEmail($userEmail) {
       $userEmail = str_replace('@', '%40', $userEmail);
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/find_by_email?email=$userEmail");
-      $body = json_decode($response->getBody(), true);
-      $data = json_encode($body['user']);
-      return $data;
+      return $response->getBody();
     }
 
-    //--------ISSUES HERE--------
     //uploads new image for a user given a userId
-    function uploadPhoto($userId, $encodedImage) {
-      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/data=>image/jpg;base64".$encodedImage);
+    function uploadPhoto($userId, $encodedImage){
+      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_photo_id", ['file' => $encodedImage]);
+      echo $response->getStatusCode();
     }
-    //---------------------------
+
+    //uploads new image for a user given a userId
+    function uploadProofOfResidence($userId, $encodedImage){
+      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
+      echo $response->getStatusCode();
+    }
 
     //update user with given userId with given put_data
     function updateUser($userId, $put_data) {
@@ -81,24 +84,33 @@
     //get credit transaction of a given data
     function getCreditTransactions() {
       $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['credit']); // encodes back to json with out the user key
-      return $data;
+      $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $response = json_encode($response['credit']); // encodes back to json with out the user key
+      return $response;
     }
 
-    //--------ISSUES HERE --------
+    //get credit transaction of a given data
+    function getCreditTransactions($get_data){
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits", ['json' => $get_data]);
+      return $response->getBody();
+    }
+
     //updates password of a user given the old password, new password, and new password confirmation
     //new password and new password confirmation must match
-    function updateUserPassword($userId, $old_password, $password, $password_confirmation){
-      $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", ['old_password' => $old_password], ['password' => $password], ['password_confirmation' => $password_confirmation]);
+    function updateUserPassword($userId, $put_data){
+      $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", $put_data);
     }
-    //---------------------------
 
     //add user to this vendor
     function addUser($post_data){
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $post_data]);
     }
-	}//close class
+
+    function deleteUser($userId){
+      $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
+      echo $response->getStatusCode();
+    }
+	}//close Vendor class
 
 //close main php
 ?>

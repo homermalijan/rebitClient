@@ -148,3 +148,53 @@ $post_data = array(
     'business_slug'=> null,
     'is_test'=> false
 )
+
+
+
+$post_data = array (
+  'user'=> array (
+    'id'=> 1,
+    'first_name'=> 'Juan',
+    'last_name'=> 'dela Cruz',
+    'email'=> 'juan@example.com',
+    'birthday'=> null,
+    'mobile'=> null,
+    'wallet_address'=> null,
+    'institutional'=> false,
+    'address'=> null,
+    'city'=> null,
+    'country'=> null,
+    'postal_code'=> null,
+    'maximum_sends_per_day'=> 10,
+    'mobile_confirmed'=> true,
+    'kyc_level'=> 0,
+    'identification'=> array (
+      'url'=> null,
+      'thumb'=> array (
+        'url'=> null
+      )
+    ),
+    'identification_confirmed'=> false,
+    'proof_of_address'=> array (
+      'url'=> null,
+      'thumb'=> (
+        'url'=> null
+      )
+    ),
+    'proof_of_address_confirmed'=> false,
+    'recipient_ids'=> [
+      1,
+      2,
+      3
+    ],
+    'remittance_ids'=> [
+      1,
+      2
+    ],
+    'total_remittances_today'=> 1000,
+    'vendor_uploaded_identification'=> null,
+    'vendor_uploaded_proof_of_address'=> null
+  ),
+  'password'=> 'yourpassword',
+  'api_token'=> 'AAAAAAAAAA-t_-DCsC-sssss-xxxxx'
+)
