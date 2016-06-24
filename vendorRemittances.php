@@ -14,16 +14,32 @@
 
     function showRemittances($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['remittance_ids']);
+      echo $response."\n";
     }
 
-    function showRemittanceInfo($vendorToken, $userId, $remittanceId){
-      $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+    function showRemittanceInfo($vendorToken, $userId, $remittanceId){  //shows a remittance's info given a vendor token, user id, and remittance id
+      try {
+        $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
+        $response = json_decode($response->getBody(), true);    //json to string
+        $response = json_encode($response['recipient']);        //string to json without 'recipient' key
+        return $response;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        throw new Exception ($e->getResponse()->getBody(true));
+      }
+
+    }
+
+    function saveRemittance($vendorToken, $userId, $data){
+      $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances", ['json' => $data]);
+
+    }
+
+    function deleteRemittance($vendorToken, $userId, $remittanceId){  //deletes a remittance given a vendor token, user id, and remittance id
+      $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
+      echo $response->getStatusCode()."\n";   // 200
     }
   }
+
 ?>

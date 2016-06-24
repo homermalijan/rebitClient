@@ -21,7 +21,7 @@
 			$body = json_decode($response->getBody(), true);
 			$data = json_encode($body['vendor']);
 			//return json object
-			return $data;
+			echo $data;
 		}//close getVendor
 
     //update vendor attributes with given params
