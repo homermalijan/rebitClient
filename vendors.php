@@ -20,7 +20,7 @@
 			$body = json_decode($response->getBody(), true);
 			$data = json_encode($body['vendor']);
 			//return json object
-			return $data;
+			echo $data;
 		}//close getVendor
 
     //update vendor attributes with given params
@@ -31,7 +31,7 @@
     //return all users associated with this vendor
     function getUsers() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-      return $response->getBody();
+      echo $response->getBody();
     }
 
     //return specific user associated with this vendor
