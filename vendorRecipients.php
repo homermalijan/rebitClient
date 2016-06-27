@@ -20,9 +20,7 @@
     //get list of recipients from a vendor
     function getRecipient($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+      return $response->getBody();
     }
 
     //get details of a recipient user from a vendor
