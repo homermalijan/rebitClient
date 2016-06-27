@@ -8,7 +8,7 @@
   class VendorRecipients {
     var $recipientId;
 
-    function __construct($recipientId){
+    function __construct($recipientId) {
       $this->recipientId = $recipientId;
     }
 
@@ -31,14 +31,14 @@
     }
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
-    function updateRecipient($vendorToken, $userId, $recipientId, $put_data){
+    function updateRecipient($vendorToken, $userId, $recipientId, $put_data) {
       $response = clientCreator::getInstance()->request('PUT',"vendors/$vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
       return $response->getBody();
     }
 
     //*404*
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
-    function deleteRecipient($vendorToken, $userId, $recipientId){
+    function deleteRecipient($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
       return $response->getBody();
     }
