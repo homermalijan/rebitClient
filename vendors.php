@@ -9,7 +9,7 @@
 		var $vendorToken; 		//vendor id
 
 		//constructor
-		function __construct($vendorToken){
+		function __construct($vendorToken) {
 			//initialize vendor token from parameter received
 			$this->vendorToken = $vendorToken;
 
@@ -38,7 +38,9 @@
     //return specific user associated with this vendor
     function getUser($userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
-      return $response->getBody();
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['user']);
+      return $response;
     }
 
     //return specific user associated with this vendor via given email
@@ -61,14 +63,30 @@
     }
 
     //update user with given userId with given put_data
-    function updateUser($userId, $put_data){
+    function updateUser($userId, $put_data) {
       $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
+      echo $response->getStatusCode();
+    }
+
+    function showOutgoingRemittances($userId) {
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
+      echo $response->getBody();
     }
 
     //get details of a credit given a creditId
-    function getCredits($creditId, $get_data){
+    function getCreditInfo($creditId, $get_data) {
       $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits/$creditId", ['json' => $get_data]);
-      return $response->getBody();
+      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $data = json_encode($body['credit']); // encodes back to json with out the user key
+      return $data;
+    }
+
+    //get credit transaction of a given data
+    function getCreditTransactions() {
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
+      $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $response = json_encode($response['credit']); // encodes back to json with out the user key
+      return $response;
     }
 
     //get credit transaction of a given data
