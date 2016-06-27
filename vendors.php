@@ -12,7 +12,6 @@
 		function __construct($vendorToken) {
 			//initialize vendor token from parameter received
 			$this->vendorToken = $vendorToken;
-
 		}//close constructor
 
 		//get vendor details based on vendorToken
@@ -51,13 +50,13 @@
     }
 
     //uploads new image for a user given a userId
-    function uploadPhoto($userId, $encodedImage){
+    function uploadPhoto($userId, $encodedImage) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_photo_id", ['file' => $encodedImage]);
       echo $response->getStatusCode();
     }
 
     //uploads new image for a user given a userId
-    function uploadProofOfResidence($userId, $encodedImage){
+    function uploadProofOfResidence($userId, $encodedImage) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
       echo $response->getStatusCode();
     }
@@ -96,24 +95,27 @@
 
     //updates password of a user given the old password, new password, and new password confirmation
     //new password and new password confirmation must match
-    function updateUserPassword($userId, $put_data){
+    function updateUserPassword($userId, $put_data) {
       $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", $put_data);
+      return $response->getBody();
     }
 
     //add user to this vendor
-    function addUser($post_data){
+    function addUser($post_data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $post_data]);
+      return $response->getBody();
     }
 
-    function deleteUser($userId){
+    function deleteUser($userId) {
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
-      echo $response->getStatusCode();
+      return $response->getBody();
     }
 
-    function quickRebit($post_data) {
-      $response = clientCreator::getInstance()->request('POST', "vendors/$this->vendorToken/users/instant_remit", ['json' => $post_data]);
-      echo $response->getBody();
+    function getOutgoingRemittances($userId) {
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
+      return $response->getBody();
     }
+
 	}//close Vendor class
 
 //close main php

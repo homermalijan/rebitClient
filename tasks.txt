@@ -6,8 +6,5 @@ POST /api/v1/vendors/:vendor_api_token/credits	VENDORS: Create a new address and
 Vendor recipients
 DELETE /api/v1/vendors/:vendor_api_token/users/:user_id/recipients/:id	VENDORS: Delete recipient record of a user belonging to a VENDOR partner safely
 
-Vendor outgoing remittances
-GET /api/v1/vendors/:vendor_api_token/users/:user_id/outgoing_remittances	VENDORS: Show all outgoing-remittances belonging to the given user. Only available for users of type 'BUSINESS USER'
-
 Vendor users
 *issue: cannot get an existing user id* PUT /api/v1/vendors/:vendor_api_token/users/:id/update_password	VENDORS: Change the password of a user belonging to your Vendor account
