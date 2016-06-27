@@ -83,10 +83,15 @@
 
     //get credit transaction of a given data
     function getCreditTransactions() {
-      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
-      $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $response = json_encode($response['credit']); // encodes back to json with out the user key
-      return $response;
+      try{
+        $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
+        $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $response = json_encode($response['credit']); // encodes back to json with out the user key
+        return $response;
+      } catch (GuzzleHttp\Exception\ServerException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
     }
 
     //updates password of a user given the old password, new password, and new password confirmation
@@ -103,6 +108,11 @@
     function deleteUser($userId){
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
       echo $response->getStatusCode();
+    }
+
+    function quickRebit($post_data) {
+      $response = clientCreator::getInstance()->request('POST', "vendors/$this->vendorToken/users/instant_remit", ['json' => $post_data]);
+      echo $response->getBody();
     }
 	}//close Vendor class
 
