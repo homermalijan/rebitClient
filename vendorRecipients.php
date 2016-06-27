@@ -28,8 +28,6 @@
     //get details of a recipient user from a vendor
     function getRecipientDetail($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
-      // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-      // $response = json_encode($response); // encodes back to json with out the user key
       return $response->getBody();
     }
 
@@ -38,6 +36,7 @@
       $response = clientCreator::getInstance()->request('PUT',"vendors/$vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
     }
 
+    //*404*
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
     function deleteRecipient($vendorToken, $userId, $recipientId){
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/recipients/$recipientId");

@@ -17,7 +17,6 @@
 // );
 //
 // $post_data = array (
-//   'user'=> array(
 //     'id'=> 1,
 //     'first_name'=> 'Juan',
 //     'last_name'=> 'dela Cruz',

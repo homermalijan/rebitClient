@@ -93,6 +93,7 @@
     //new password and new password confirmation must match
     function updateUserPassword($userId, $put_data){
       $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", $put_data);
+      echo $response->getBody();
     }
 
     //add user to this vendor
@@ -102,7 +103,10 @@
 
     function deleteUser($userId){
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
-      echo $response->getStatusCode();
+    }
+
+    function getOutgoingRemittances($userId){
+      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
     }
 	}//close Vendor class
 
