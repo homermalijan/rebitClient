@@ -11,63 +11,33 @@
   require 'vendorRecipients.php';
 
   $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
-  $newRemittance = new VendorRemittances(1);
+  $nr = new VendorRemittances(1);
   $newUser = new Users ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
+  $nre = new VendorRecipients(1);
 
-  $newVendor->getOutgoingRemittances(12636);
-  // $newRemittance->showRemittanceInfo($newVendor->vendorToken, 10876, 56168)
-  // $newRemittance->showRemittanceso($newVendor->vendorToken, )
+  // echo $nre->getRecipient($newVendor->vendorToken, 10876);
 
   $data = array(
-    'recipient_id'=> 43737,
-    'remittance'=> array(
-      'amount'=>5,
-      'currency'=>'BTC',
-      'strategy'=>'BANK',
-      'callback_url'=>'null',
-      'remittance_details'=> array(
-        'bank'=>'ABC',
-        'bank_account_type'=>'PHP',
-        'bank_account_name'=>'JC Carlo Quintos',
-        'bank_account_number'=>'2013-29963',
-        'delivery'=>'LBCPP',
-        'pickup'=>'CLH'
-      )
-    )
-  );
-  // $newRemittance->saveRemittance($newVendor->vendorToken, 10876, $data);
-  // $newVendor->getVendor();
-  // $newVendor->getCreditTransactions();
-  //$newVendor->showOutgoingRemittances(12672);
-  // $newVendor->getUsers();
-  // $newVendor->updateUser(12672, $dataRemit);
-  // $newVendor->deleteUser(12677);
-  // echo $newVendor->getUser(12677);
-
-  $post_data = array(
     'recipient' => array(
-      'first_name' => 'Homer',
-      'last_name' => 'Homer',
-      'mobile' => '09061571969',
-      'email' => 'homerhomerhomer@gmail.com',
-      'address' => '189 makiling st.',
-      'city' => 'Calamba',
+      'first_name' => "homerhomer",
+      'last_name' => "malijan",
+      'mobile' => "090615171969",
+      'email' => "hcmalijan@up.edu.ph",
+      'address' => "951 brgy lamot 2",
+      'city' => "calamba",
       'province' => 'Laguna',
-      'postal_code' => '4027'
+      'postal_code' => '4012'
     )
+    //48291 recipient id
   );
-  $nr = new VendorRecipients(1);
+  // $nr->showRemittances($newVendor->vendorToken, 10876);
+  // echo $nr->showRemittanceInfo($newVendor->vendorToken, 10876, 61634);
+  // echo $nr->saveRemittance($newVendor->vendorToken, 10876, $data);
+  // echo $nr->deleteRemittance($newVendor->vendorToken, 10876, 61634);
+  // echo $nr->calculateRemittance($newVendor->vendorToken, 10876, $data);
 
-  // $newVendor->
+  echo $nre->updateRecipient($newVendor->vendorToken, 10876, 48291, $data);
+  // echo $nre->getRecipientDetail($newVendor->vendorToken, 10876, 48291);
 
-
-  // $pw_data = array(
-  //   'old_password' => 'freshlikejc',
-  //   'password' => 'haha',
-  //   'password_confirmation' => 'haha'
-  // );
-  //
-  // $newVendor->updateUserPassword(12636, $pw_data);
-
-  // $newRemittance->calculateRemittance($newVendor->vendorToken, 10876, $post_data);
+  // echo $nre->deleteRecipient($newVendor->vendorToken, 10876, 48291);
 ?>
