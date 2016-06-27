@@ -13,7 +13,9 @@
   $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
   // $newVendor->deleteUser(12677);
   // echo $newVendor->getUser(12677);
-  echo $newVendor->getVendor();
+  $nr = new VendorRecipients(1);
+  echo $nr->getRecipient($newVendor->vendorToken, 10876);
+  // echo $newVendor->getVendor();
   // $newUser = new Users ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
   // echo $newUser->getUser();
   // $file = '/home/hoommaah/Desktop/rebitClient/upload.jpg';
