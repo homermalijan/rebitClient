@@ -89,12 +89,6 @@
       return $response;
     }
 
-    //get credit transaction of a given data
-    function getCreditTransactions($get_data){
-      $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits", ['json' => $get_data]);
-      return $response->getBody();
-    }
-
     //updates password of a user given the old password, new password, and new password confirmation
     //new password and new password confirmation must match
     function updateUserPassword($userId, $put_data){

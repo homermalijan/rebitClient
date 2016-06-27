@@ -33,7 +33,7 @@
 
     function saveRemittance($vendorToken, $userId, $data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances", ['json' => $data]);
-      echo $response->getStatusCode();
+      echo $response->getBody();
     }
 
     function deleteRemittance($vendorToken, $userId, $remittanceId) {  //deletes a remittance given a vendor token, user id, and remittance id
