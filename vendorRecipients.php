@@ -28,9 +28,9 @@
     //get details of a recipient user from a vendor
     function getRecipientDetail($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+      // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+      // $response = json_encode($response); // encodes back to json with out the user key
+      return $response->getBody();
     }
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
