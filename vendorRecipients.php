@@ -14,7 +14,9 @@
 
     //create a new recipient from a user to a new vendor
     function createRecipient($vendorToken, $userId, $post_data) {
-      $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId", ['json' => $post_data]);
+      $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/recipients", ['json' => $post_data]);
+      echo $response->getBody();
+
     }
 
     //get list of recipients from a vendor
@@ -39,6 +41,7 @@
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
     function deleteRecipient($vendorToken, $userId, $recipientId){
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
+      echo $response->getBody();
     }
 
   }//close VendorRecipient class

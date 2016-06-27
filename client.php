@@ -43,8 +43,23 @@
   // $newVendor->updateUser(12672, $dataRemit);
   // $newVendor->deleteUser(12677);
   // echo $newVendor->getUser(12677);
-  // $nr = new VendorRecipients(1);
-  // echo $nr->getRecipient($newVendor->vendorToken, 10876);
+
+  $post_data = array(
+    'recipient' => array(
+      'first_name' => 'Homer',
+      'last_name' => 'Homer',
+      'mobile' => '09061571969',
+      'email' => 'homerhomerhomer@gmail.com',
+      'address' => '189 makiling st.',
+      'city' => 'Calamba',
+      'province' => 'Laguna',
+      'postal_code' => '4027'
+    )
+  );
+  $nr = new VendorRecipients(1);
+  // $nr->createRecipient($newVendor->vendorToken, 12677, $post_data);
+  // echo $nr->getRecipient($newVendor->vendorToken, 12677);
+  $nr->deleteRecipient($newVendor->vendorToken, 12677, '48228');
   // echo $newVendor->getVendor();
   // $newUser = new Users ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
   // echo $newUser->getUser();
@@ -53,12 +68,12 @@
   //header('Content-Length: ' . filesize($file));
   // echo file_get_contents($file);
 
-  $post_data = array (
+  $post_data = array(
       'amount'=> "1000.00",
       'currency'=> "PHP",
       'strategy'=> "pickup",
       'provider'=> "ABC",
       'province'=> "Abra"
   );
-  $newRemittance->calculateRemittance($newVendor->vendorToken, 10876, $post_data);
+  // $newRemittance->calculateRemittance($newVendor->vendorToken, 10876, $post_data);
 ?>
