@@ -6,7 +6,7 @@
   require 'vendor/autoload.php';
   require 'clientCreator.php';
 
-	class Vendors {
+	class Vendor {
 		var $vendorToken; 		//vendor id
 
 		//constructor
