@@ -3,8 +3,5 @@ Vendor credits
 *issue: not yet tested* GET /api/v1/vendors/:vendor_api_token/credits	VENDORS: Show a list of credit transactions
 POST /api/v1/vendors/:vendor_api_token/credits	VENDORS: Create a new address and get a new rate
 
-Vendor recipients
-DELETE /api/v1/vendors/:vendor_api_token/users/:user_id/recipients/:id	VENDORS: Delete recipient record of a user belonging to a VENDOR partner safely
-
 Vendor users
 *issue: cannot get an existing user id* PUT /api/v1/vendors/:vendor_api_token/users/:id/update_password	VENDORS: Change the password of a user belonging to your Vendor account
