@@ -4,6 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'clientCreator.php';
 
   class Recipient {
     var $vendorToken;
@@ -16,7 +17,7 @@
     function showInfo($userId, $recipientId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
-        return $response->getBody();
+        return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
           $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
           return $errMessage;
@@ -53,15 +54,15 @@
 
     //*ISSUE: not yet tested*
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
-    function destroy($userId, $recipientId) {
-      try{
-        $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
-        return $response->getBody();
-      } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
-      }
-    }//close destroy
+    // function destroy($userId, $recipientId) {
+    //   try{
+    //     $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
+    //     return $response->getBody();
+    //   } catch(GuzzleHttp\Exception\ClientException $e) {
+    //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+    //     return $errMessage;
+    //   }
+    // }//close destroy
 
   }//close VendorRecipient class
 ?>

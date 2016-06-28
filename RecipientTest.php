@@ -50,6 +50,11 @@
       $this->assertequals(200, $result->getStatusCode());
     }
 
+    public function testShowInfo(){
+      $result = $this->recipient->showInfo(10876, 48291);
+      $this->assertequals(200, $result->getStatusCode());
+    }
+
 
   }//close RecipientTest class
 ?>
