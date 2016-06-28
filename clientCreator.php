@@ -8,7 +8,7 @@
 
 	class clientCreator{
 		private static $client;
-		
+
 		//return static variable client; creates new instance if null
 		public static function getInstance() {
 			if(!self::$client) {

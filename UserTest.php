@@ -36,7 +36,9 @@
           'birthday' => '1-1-1111'
         )//close user array
       );//close put_data
-      
+
+      $result = $this->user->update($put_data);
+      $this->assertEquals(200,$result->getStatusCode());
     }
   }
 

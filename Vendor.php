@@ -4,7 +4,8 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
+
+  // require 'clientCreator.php';
 
 	class Vendor {
 		var $vendorToken; 		//vendor id
@@ -115,12 +116,13 @@
 
     //uploads new image for a user given a userId
     function uploadProofOfResidence($userId, $encodedImage) {
-    try{
-        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
-        return $response->getBody();
-    } catch (GuzzleHttp\Exception\ServerException $e) {
-      $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-      return $errMessage;
+      try{
+          $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
+          return $response->getBody();
+      } catch (GuzzleHttp\Exception\ServerException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
     }
 
     //update vendor attributes with given params
@@ -164,7 +166,7 @@
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
-      }  
+      }
     }
 
 	}//close Vendor class
