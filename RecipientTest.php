@@ -29,7 +29,7 @@
 
       $result = $this->recipient->save(10876, $post_data);
       $this->assertEquals(200, $result->getStatusCode());
-    }
+    }//close testSave
 
     public function testUpdate(){
       $put_data = array(
@@ -42,11 +42,14 @@
       );
 
       $result = $this->recipient->update(10876, 48291, $put_data);
-      $this->assertEquals(200, $result->getStatusCode()); 
+      $this->assertEquals(200, $result->getStatusCode());
+    }//close testUpdate
 
-
-
+    public function testShowAll(){
+      $result = $this->recipient->showAll(10876);
+      $this->assertequals(200, $result->getStatusCode());
     }
+
 
   }//close RecipientTest class
 ?>

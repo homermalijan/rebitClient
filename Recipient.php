@@ -28,7 +28,7 @@
     function showAll($userId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
-        return $response->getBody();
+        return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
