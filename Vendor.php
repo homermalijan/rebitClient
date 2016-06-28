@@ -59,16 +59,6 @@
       }
     }
 
-    function showOutgoingRemittances($userId) {
-      try{
-        $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
-        return $response->getBody();
-      } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
-      }
-    }
-
     //get details of a credit given a creditId
     function showCreditInfo($creditId, $get_data) {
       try{
