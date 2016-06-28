@@ -12,11 +12,6 @@
       $this->recipient = NULL;
     }
 
-    // public function testShowAll(){
-    //   $result = $this->recipient->showAll(10876, 12677);
-    //   $this->assertEquals(200, $result->getStatusCode());
-    // }//close showAllTest
-
     public function testSave(){
       $post_data = array(
         'recipient' => array(

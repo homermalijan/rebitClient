@@ -4,11 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-<<<<<<< HEAD
-
   // require 'clientCreator.php';
-=======
->>>>>>> d7b76c04e0491cbe479a60b15cf25674776915f3
 
 	class Vendor {
 		var $vendorToken; 		//vendor id
