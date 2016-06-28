@@ -4,8 +4,9 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'clientCreator.php';
 
-  class VendorRecipients {
+  class Recipient {
     var $recipientId;
 
     function __construct($recipientId) {
@@ -13,35 +14,35 @@
     }
 
     //create a new recipient from a user to a new vendor
-    function createRecipient($vendorToken, $userId, $post_data) {
+    function save($vendorToken, $userId, $post_data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/recipients", ['json' => $post_data]);
       return $response->getBody();
-    }
+    }//close save
 
     //get list of recipients from a vendor
-    function getRecipient($vendorToken, $userId) {
+    function show($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients");
       return $response->getBody();
-    }
+    }//close show
 
     //get details of a recipient user from a vendor
-    function getRecipientDetail($vendorToken, $userId, $recipientId) {
+    function showInfo($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
       return $response->getBody();
-    }
+    }//close showInfo
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
-    function updateRecipient($vendorToken, $userId, $recipientId, $put_data) {
+    function update($vendorToken, $userId, $recipientId, $put_data) {
       $response = clientCreator::getInstance()->request('PUT',"vendors/$vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
       return $response->getBody();
-    }
+    }//close update
 
-    //*404*
+    //*ISSUE: not yet tested*
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
-    function deleteRecipient($vendorToken, $userId, $recipientId) {
+    function destroy($vendorToken, $userId, $recipientId) {
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/recipients/$recipientId");
       return $response->getBody();
-    }
+    }//close destroy
 
   }//close VendorRecipient class
 

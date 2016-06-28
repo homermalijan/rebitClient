@@ -4,48 +4,53 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'clientCreator.php';
 
-  class VendorRemittances {
+  class Remittance {
     var $remittanceId;
 
     function __construct($remittanceId) {
       $this->remittanceId = $remittanceId;
     }//close constructor
 
-    function showRemittances($vendorToken, $userId) {
+    //show all remittances associated to a user
+    function show($vendorToken, $userId) {
       $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances");
       $response = json_decode($response->getBody(), true);
       $response = json_encode($response['remittance_ids']);
       return $response."\n";
-    }//close showRemittances
+    }//close show
 
-    function showRemittanceInfo($vendorToken, $userId, $remittanceId) {  //shows a remittance's info given a vendor token, user id, and remittance id
+    //shows info of a remittance for a user associated to a vendor
+    function showInfo($vendorToken, $userId, $remittanceId) {
       try {
         $response = clientCreator::getInstance()->request('GET',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
-        $response = json_decode($response->getBody(), true);    //json to string
-        $response = json_encode($response['recipient']);        //string to json without 'recipient' key
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }//close showRemittanceInfo
+    }//close showInfo
 
-
-    function saveRemittance($vendorToken, $userId, $data) {
+    //creates a remmitance for a user associated to a vendor
+    function save($vendorToken, $userId, $data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances", ['json' => $data]);
       return $response->getBody();
-    }//close saveRemittance
+    }//close save
 
-    function deleteRemittance($vendorToken, $userId, $remittanceId) {  //deletes a remittance given a vendor token, user id, and remittance id
+    //deletes a remittance given a vendor token, user id, and remittance id
+    function destroy($vendorToken, $userId, $remittanceId) {
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
-      return $response->getStatusCode()."\n";   // 200
-    }//close deleteRemittance
+      return $response->getBody();
+    }//close destroy
 
-    function calculateRemittance($vendorToken, $userId, $post_data){
+    //compute remmitance of for a user given a set of data
+    function compute($vendorToken, $userId, $post_data){
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances/calculate", ['json' => $post_data]);
-      return $response->getStatusCode();
-    }
+      return $response->getBody();
+    }//close compute
 
-  }
+  }//close class remittances
 ?>
