@@ -31,7 +31,6 @@
       }
     }//close showRemittanceInfo
 
-
     function saveRemittance($vendorToken, $userId, $data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances", ['json' => $data]);
       return $response->getBody();
@@ -39,12 +38,12 @@
 
     function deleteRemittance($vendorToken, $userId, $remittanceId) {  //deletes a remittance given a vendor token, user id, and remittance id
       $response = clientCreator::getInstance()->request('DELETE',"vendors/$vendorToken/users/$userId/remittances/$remittanceId");
-      return $response->getStatusCode()."\n";   // 200
+      return $response->getBody();
     }//close deleteRemittance
 
     function calculateRemittance($vendorToken, $userId, $post_data){
       $response = clientCreator::getInstance()->request('POST',"vendors/$vendorToken/users/$userId/remittances/calculate", ['json' => $post_data]);
-      return $response->getStatusCode();
+      return $response->getBody();
     }
 
   }
