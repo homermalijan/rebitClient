@@ -4,7 +4,6 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
 
   class Recipient {
     var $recipientId;
@@ -65,5 +64,4 @@
     }//close destroy
 
   }//close VendorRecipient class
-
 ?>

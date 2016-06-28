@@ -5,19 +5,21 @@
 
   require 'vendor/autoload.php';
   require 'clientCreator.php';
-  require 'users.php';
-  require 'vendors.php';
-  require 'vendorRemittances.php';
-  require 'vendorRecipients.php';
+  require 'User.php';
+  require 'Vendor.php';
+  require 'Remittance.php';
+  require 'Recipient.php';
 
-  $nr = new VendorRemittances(1);
-  $nre = new VendorRecipients(1);
-  $newUser = new Users ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
-  $newVendor = new Vendors('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
+  $nr = new Remittance(1);
+  $nre = new Recipient(1);
+  $newUser = new User ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
+  $newVendor = new Vendor('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
 
-  // echo $newVendor->getUser(10876);
+  echo $newVendor->showDetails();
+
+  // echo $newVendor->showAll();
   // echo $nr->showRemittances($newVendor->vendorToken, 10876);
-  echo $nr->deleteRemittance($newVendor->vendorToken, 10876, 48792);
+  // echo $nr->deleteRemittance($newVendor->vendorToken, 10876, 48792);
   // echo $nre->deleteRecipient($newVendor->vendorToken, 10876,48291);
 
   // echo $nre->getRecipient($newVendor->vendorToken, 10876);
@@ -32,6 +34,8 @@
   // echo $nre->getRecipientDetail($newVendor->vendorToken, 10876, 48291);
 
   // echo $nre->deleteRecipient($newVendor->vendorToken, 10876, 48291);
+
+
   $data = array(
     'recipient' => array(
       'first_name' => "homerhomer",
