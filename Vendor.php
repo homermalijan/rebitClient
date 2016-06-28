@@ -4,8 +4,11 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+<<<<<<< HEAD
 
   // require 'clientCreator.php';
+=======
+>>>>>>> d7b76c04e0491cbe479a60b15cf25674776915f3
 
 	class Vendor {
 		var $vendorToken; 		//vendor id
@@ -54,16 +57,6 @@
       $userEmail = str_replace('@', '%40', $userEmail);
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/find_by_email?email=$userEmail");
-        return $response->getBody();
-      } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
-      }
-    }
-
-    function showOutgoingRemittances($userId) {
-      try{
-        $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/users/$userId/outgoing_remittances");
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
