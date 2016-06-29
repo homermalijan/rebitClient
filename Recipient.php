@@ -38,7 +38,9 @@
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
-      return $response;
+      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+      $data = json_encode($body['recipient']); // encodes back to json with out the user key
+      return $data;
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor

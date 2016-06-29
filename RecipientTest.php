@@ -23,7 +23,7 @@
       );
 
       $result = $this->recipient->save(10876, $post_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
     }//close testSave
 
     public function testUpdate(){

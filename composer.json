@@ -2,5 +2,5 @@
     "require": {
         "guzzlehttp/guzzle": "^6.2",
         "phpunit/phpunit": "5.4.6"
-    }
+     }    
 }
