@@ -41,14 +41,12 @@
 
     public function testShowAll(){
       $result = $this->recipient->showAll(10876);
-      $this->assertEquals(200, $result->getStatusCode());
-
-      // $this->assertNotNull(json_decode($result));
+      $this->assertInternalType('array', $result);
     }
 
     public function testShowInfo(){
       $result = $this->recipient->showInfo(10876, 48291);
-      $this->assertequals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
     }
 
 

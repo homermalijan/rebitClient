@@ -14,7 +14,7 @@
 
     public function testShow(){
       $result = $this->user->show();
-      $this->assertEquals(200,$result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
     }
 
     public function testUpdate(){

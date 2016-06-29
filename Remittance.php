@@ -17,8 +17,8 @@
     function showInfo($userId, $remittanceId) {
       try {
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
-        // $response = json_decode($response->getBody(), true);
-        // $response = json_encode($response['recipient']);
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -30,8 +30,8 @@
     function showAll($userId) {
       try {
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances");
-        // $response = json_decode($response->getBody(), true);
-        // $response = json_encode($response['remittance_ids']);
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['remittance_ids']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -47,8 +47,8 @@
         // $response = json_encode($response['remittance']);
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        // $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $e->getResponse()->getBody();
       }
     }//close save
 
