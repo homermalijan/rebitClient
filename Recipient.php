@@ -37,17 +37,24 @@
 
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
-      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['recipient']); // encodes back to json with out the user key
-      return $data;
+      try{
+        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
+        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $data = json_encode($body['recipient']); // encodes back to json with out the user key
+        return $data;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $put_data) {
       try{
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
-        return $response;
+        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $data = json_encode($body['recipient']); // encodes back to json with out the user key
+        return $data;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;

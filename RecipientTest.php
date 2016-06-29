@@ -29,20 +29,22 @@
     public function testUpdate(){
       $put_data = array(
         'recipient' => array(
-          'first_name' => 'homer',
-          'last_name' => 'malijan',
+          'last_name' => 'lolomo',
           'email' => 'hcmalijan@up.edu.ph',
           'mobile' => '09061571969'
         )
       );
-
       $result = $this->recipient->update(10876, 48291, $put_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      // $this->assertEquals(200, $result->getStatusCode());
+      echo $result;
+      $this->assertNotNull(json_decode($result));
     }//close testUpdate
 
     public function testShowAll(){
       $result = $this->recipient->showAll(10876);
-      $this->assertequals(200, $result->getStatusCode());
+      $this->assertEquals(200, $result->getStatusCode());
+
+      // $this->assertNotNull(json_decode($result));
     }
 
     public function testShowInfo(){
