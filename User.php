@@ -18,13 +18,20 @@
       $response = clientCreator::getInstance()->request('GET', "user?token=$this->userToken");
       $body = json_decode($response->getBody(), true);  //decodes the resposnce body
       $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $response;
+      return $data;
     }//close show
 
     //updates user given a valid user token
     function update($put_data) {
-      $response = clientCreator::getInstance()->request('PUT', "user?token=$this->userToken", ['json' => $put_data]);
-      return $response;
+      try{
+        $response = clientCreator::getInstance()->request('PUT', "user?token=$this->userToken", ['json' => $put_data]);
+        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $data = json_encode($body['user']); // encodes back to json with out the user key
+        return $data;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
     }//close update
 
   }//close class user
