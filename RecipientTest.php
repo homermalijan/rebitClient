@@ -29,14 +29,13 @@
     public function testUpdate(){
       $put_data = array(
         'recipient' => array(
-          'last_name' => 'lolomo',
+          'first_name' => 'homer',
+          'last_name' => 'malijan',
           'email' => 'hcmalijan@up.edu.ph',
           'mobile' => '09061571969'
         )
       );
       $result = $this->recipient->update(10876, 48291, $put_data);
-      // $this->assertEquals(200, $result->getStatusCode());
-      echo $result;
       $this->assertNotNull(json_decode($result));
     }//close testUpdate
 

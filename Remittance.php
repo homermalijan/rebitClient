@@ -41,26 +41,40 @@
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {
-      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
-      return $response;
-    }//close save
-
-    //compute remmitance of for a user given a set of data
-    function compute($userId, $post_data){
-      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $post_data]);
-      return $response;
-    }//close compute
-
-    //deletes a remittance given a vendor token, user id, and remittance id
-    function destroy($userId, $remittanceId) {
-      try {
-        $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
+      try{
+        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
+        // $response = json_decode($response->getBody(), true);
+        // $response = json_encode($response['remittance']);
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }//close destroy
+    }//close save
+
+    //compute remmitance of for a user given a set of data
+    function compute($userId, $post_data){
+      try{
+        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $post_data]);
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['response']);
+        return $response;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
+    }//close compute
+
+    //deletes a remittance given a vendor token, user id, and remittance id
+    // function destroy($userId, $remittanceId) {
+    //   try {
+    //     $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
+    //     return $response->getBody();
+    //   } catch(GuzzleHttp\Exception\ClientException $e) {
+    //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+    //     return $errMessage;
+    //   }
+    // }//close destroy
 
   }//close class remittances
 ?>

@@ -50,7 +50,7 @@
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $put_data) {
-      try{
+      try {
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
         $body = json_decode($response->getBody(), true);  //decodes the resposnce body
         $data = json_encode($body['recipient']); // encodes back to json with out the user key

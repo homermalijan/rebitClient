@@ -18,15 +18,35 @@
         'remittance' => array(
           'amount' => '100',
           'currency' => 'PHP',
-          'strategy' => 'pickup'
-        ),
-        'remmitance_details' => array(
-          'bank' => 'ABC'
+          'strategy' => 'bank',
+          // 'callback_url' => 'amazon.com',
+          'remittance_details' => array(
+            'bank' => 'ABC',
+            'bank_account_type' => 'PHP Savings',
+            'bank_account_name' => 'hello thur',
+            'bank_account_number' => '123456789'
+            // 'delivery' => 'LBCPP',
+            // 'pickup' => 'CLH'
+          )
         )
       );
 
+      // $post_data = array(
+      //   'recipient_id' => '48531',
+      //   'remittance' => array(
+      //     'amount' => '100',
+      //     'currency' => 'PHP',
+      //     'strategy' => 'pickup',
+      //     'remmitance_details' => array(
+      //       'pickup' => 'CLH'
+      //     )
+      //   )
+      // );
+
       $result = $this->remittance->save(10876, $post_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      // $this->assertEquals(200, $result->getStatusCode());
+      echo $result;
+      $this->assertNotNull(json_decode($result));
     }
 
     public function testCompute(){
@@ -39,7 +59,8 @@
       );
 
       $result = $this->remittance->compute(10876, $post_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
+      // echo $result;
     }
 
     public function testShowAll(){
