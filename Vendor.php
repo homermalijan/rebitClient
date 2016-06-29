@@ -4,7 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  // require 'clientCreator.php';
+  require 'clientCreator.php';
 
 	class Vendor {
 		var $vendorToken; 		//vendor id
@@ -18,8 +18,8 @@
     //get vendor details based on vendorToken
     function showDetails() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
-      $response = json_decode($response->getBody(), true);
-      $response = json_encode($response['vendor']);
+      // $response = json_decode($response->getBody(), true);
+      // $response = json_encode($response['vendor']);
       //return json object
       return $response;
     }//close getVendor
@@ -28,8 +28,8 @@
     function showOne($userId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
-        $response = json_decode($response->getBody(), true);
-        $response = json_encode($response['user']);
+        // $response = json_encode($response['user']);
+        // $response = json_decode($response->getBody(), true);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -41,7 +41,7 @@
     function showAll() {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-        return $response->getBody();
+        return $response;//->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -53,7 +53,7 @@
       $userEmail = str_replace('@', '%40', $userEmail);
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/find_by_email?email=$userEmail");
-        return $response->getBody();
+        return $response;//->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -61,11 +61,11 @@
     }
 
     //get details of a credit given a creditId
-    function showCreditInfo($creditId, $get_data) {
+    function showCreditInfo($creditId) {
       try{
-        $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits/$creditId", ['json' => $get_data]);
-        $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-        $response = json_encode($response['credit']); // encodes back to json with out the user key
+        $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits/$creditId");
+        // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+        // $response = json_encode($response['credit']); // encodes back to json with out the user key
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -77,8 +77,8 @@
     function showCreditTransactions() {
       try{
         $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
-        $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-        $response = json_encode($response['credit']); // encodes back to json with out the user key
+        // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+        // $response = json_encode($response['credit']); // encodes back to json with out the user key
         return $response;
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -89,14 +89,14 @@
     //add user to this vendor
     function saveUser($post_data) {
       $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $post_data]);
-      return $response->getBody();
+      return $response;//->getBody();
     }
 
     //uploads new image for a user given a userId
     function uploadPhoto($userId, $encodedImage) {
       try{
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_photo_id", ['file' => $encodedImage]);
-        return $response->getBody();
+        return $response;//->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -107,7 +107,7 @@
     function uploadProofOfResidence($userId, $encodedImage) {
       try{
           $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
-          return $response->getBody();
+          return $response;//->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -118,7 +118,7 @@
     function update($put_data) {
       try{
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $put_data]);
-        return $respone->getBody();
+        return $response;//->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -129,7 +129,7 @@
     function updateUser($userId, $put_data) {
       try{
         $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
-        return $response->getBody();
+        return $response;//->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -141,7 +141,7 @@
     function updateUserPassword($userId, $put_data) {
       try{
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", $put_data);
-        return $response->getBody();
+        return $response;//->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -151,7 +151,7 @@
     function destroyUser($userId) {
       try{
         $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
-        return $response->getBody();
+        return $response;//->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
