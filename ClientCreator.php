@@ -6,7 +6,7 @@
 
 	require 'vendor/autoload.php';
 
-	class clientCreator{
+	class ClientCreator{
 		private static $client;
 
 		//return static variable client; creates new instance if null

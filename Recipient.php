@@ -4,7 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
+  require 'ClientCreator.php';
 
   class Recipient {
     var $vendorToken;
@@ -46,7 +46,7 @@
     //get details of a recipient user from a vendor
     function showInfo($userId, $recipientId) {
       try{
-        $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
+        $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
         $response = json_decode($response->getBody(), true);
         $response = json_encode($response['recipient']);
         return $response;
@@ -59,7 +59,7 @@
     //get list of recipients from a vendor
     function showAll($userId) {
       try{
-        $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
+        $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
         $response = json_decode($response->getBody(), true);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
@@ -71,7 +71,7 @@
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
       if(!$testVar = $this->testing($post_data)) {
-        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
+        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
         return $response->getBody();
       }
       return $testVar;
@@ -81,7 +81,7 @@
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $put_data) {
       if(!$testVar = $this->testing($put_data)) {
-        $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
+        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
         return $response->getBody();
       }
       return $testVar;
@@ -91,7 +91,7 @@
     //delete a recipient from put_data via recipient_id of auser belonging to a vendor
     // function destroy($userId, $recipientId) {
     //   try{
-    //     $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
+    //     $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
     //     return $response->getBody();
     //   } catch(GuzzleHttp\Exception\ClientException $e) {
     //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
