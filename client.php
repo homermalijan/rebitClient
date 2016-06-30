@@ -7,8 +7,9 @@
   // require 'Recipient.php';
   // require 'User.php';
   require 'Vendor.php';
+  require 'Remittance.php';
 
-  // $remit = new Remittance(1);
+  $remit = new Remittance('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
   // $recip = new Recipient(1);
   // $newUser = new User ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
   $newVendor = new Vendor('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
@@ -21,27 +22,18 @@
   // echo $nr->showRemittances($newVendor->vendorToken, 10876);
 
   $data = array(
-    'user'=>array(
-      'first_name'=>'Carlo',
-      'last_name'=>'Quintos',
-      'email'=>'jcarlo.quintos@.com',
-      'mobile'=>'',
-      'address'=>'',
-      'city'=>'',
-      'contry'=>'',
-      'postal_code'=>'',
-      'identification'=>array(
-        'url'=>'',
-        'proof_of_address'=>array(
-          'url'=>'',
-        )
-      ),
-      'birthday'=>''
-    )
+    'amount' => '50',
+    'currency' => 'JPY',
+    'strategy' => 'pickup',
+    'provider' => 'ABC',
+    'province' => 'Abra'
   );
-  echo $newVendor->saveUser($data);
-  // echo $newVendor->update($data);
 
+  // echo $newVendor->saveUser($data);
+  // echo $newVendor->update($data);
+  // echo $remit->save(10876, $data);
+  echo $remit->compute(10876, $data);
+  // echo $remit->showAll(10876);
   // echo $nre->save(10876, $put_data)->getStatusCode();
 
 ?>

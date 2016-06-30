@@ -70,11 +70,11 @@
 
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $test;
 
     }//close save
 

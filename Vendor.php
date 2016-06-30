@@ -33,7 +33,7 @@
             return ('ERROR: MISSING VENDOR HASH')."\n";
         else if (!filter_var($data['vendor']['email'], FILTER_VALIDATE_EMAIL))
             return ('ERROR: INVALID EMAIL');
-      } else if (strcmp($prevFunct, 'update') == 0) {
+      } else if (strcmp($prevFunct, 'updateUser') == 0) {
         if (empty($data['user']))
             return ('ERROR: MISSING USER HASH')."\n";
       }
@@ -111,11 +111,11 @@
 
     //add user to this vendor
     function saveUser($data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $test;
     }
 
     //uploads new image for a user given a userId
@@ -142,20 +142,20 @@
 
     //update vendor attributes with given params
     function update($data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $test;
     }
 
     //update user with given userId with given put_data
     function updateUser($userId, $put_data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
         return $response->getBody();
       }
-      return $this->testing->getBody();
+      return $test;
     }
 
     //updates password of a user given the old password, new password, and new password confirmation
