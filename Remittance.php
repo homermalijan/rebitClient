@@ -4,6 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'ClientCreator.php';
 
   class Remittance {
     var $vendorToken;
@@ -156,13 +157,13 @@
             return ('ERROR: MISSING PROVINCE')."\n";
         if (!in_array($data['province'], $provinces))
             return ('ERROR: INVALID PHILIPPINE PROVINCE')."\n";
-      }
-    }
+      }//close main else if
+    }//close testing
 
     //shows info of a remittance for a user associated to a vendor
     function showInfo($userId, $remittanceId) {
       try {
-        $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
+        $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
         $response = json_decode($response->getBody(), true);
         $response = json_encode($response['recipient']);
         return $response;
@@ -175,7 +176,7 @@
     //show all remittances associated to a user
     function showAll($userId) {
       try {
-        $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances");
+        $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/remittances");
         $response = json_decode($response->getBody(), true);
         $response = json_encode($response['remittance_ids']);
         return $response;
@@ -183,7 +184,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $errMessage;
       }
-    }//close show
+    }//close showAll
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {
@@ -206,7 +207,7 @@
     //deletes a remittance given a vendor token, user id, and remittance id
     // function destroy($userId, $remittanceId) {
     //   try {
-    //     $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
+    //     $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
     //     return $response->getBody();
     //   } catch(GuzzleHttp\Exception\ClientException $e) {
     //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";

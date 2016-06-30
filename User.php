@@ -4,7 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
+  require 'ClientCreator.php';
 
   class User {
     var $userToken; //user token
@@ -15,7 +15,7 @@
 
     //gets user given a valid user token
     function show() {
-      $response = clientCreator::getInstance()->request('GET', "user?token=$this->userToken");
+      $response = ClientCreator::getInstance()->request('GET', "user?token=$this->userToken");
       $body = json_decode($response->getBody(), true);  //decodes the resposnce body
       $data = json_encode($body['user']); // encodes back to json with out the user key
       return $data;
@@ -24,7 +24,7 @@
     //updates user given a valid user token
     function update($put_data) {
       try{
-        $response = clientCreator::getInstance()->request('PUT', "user?token=$this->userToken", ['json' => $put_data]);
+        $response = ClientCreator::getInstance()->request('PUT', "user?token=$this->userToken", ['json' => $put_data]);
         $body = json_decode($response->getBody(), true);  //decodes the resposnce body
         $data = json_encode($body['user']); // encodes back to json with out the user key
         return $data;

@@ -8,15 +8,14 @@
       $this->user = new User('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');
     }//close setUp
 
-    protected function teadDown(){
+    protected function tearDown(){
       $this->user = NULL;
-    }
+    }//close tearDown
 
     public function testShow(){
       $result = $this->user->show();
-      // echo $result;
       $this->assertNotNull(json_decode($result));
-    }
+    }//close testShow
 
     public function testUpdate(){
       $put_data = array(
@@ -40,7 +39,7 @@
 
       $result = $this->user->update($put_data);
       $this->assertNotNull(json_decode($result));
-    }
-  }
+    }//close testUpdate
 
+  }//close class UserTest
 ?>

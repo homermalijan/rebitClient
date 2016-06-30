@@ -35,6 +35,7 @@
           'mobile' => '09061571969'
         )
       );
+
       $result = $this->recipient->update(10876, 48291, $put_data);
       $this->assertNotNull(json_decode($result));
     }//close testUpdate
@@ -42,13 +43,12 @@
     public function testShowAll(){
       $result = $this->recipient->showAll(10876);
       $this->assertInternalType('array', $result);
-    }
+    }//close testShowAll
 
     public function testShowInfo(){
       $result = $this->recipient->showInfo(10876, 48291);
       $this->assertNotNull(json_decode($result));
-    }
-
+    }//close testShowInfo
 
   }//close RecipientTest class
 ?>
