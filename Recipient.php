@@ -47,6 +47,8 @@
     function showInfo($userId, $recipientId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
           $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -58,6 +60,7 @@
     function showAll($userId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
+        $response = json_decode($response->getBody(), true);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)."\n";

@@ -18,15 +18,18 @@
         'remittance' => array(
           'amount' => '100',
           'currency' => 'PHP',
-          'strategy' => 'pickup'
-        ),
-        'remmitance_details' => array(
-          'bank' => 'ABC'
+          'strategy' => 'bank',
+          'remittance_details' => array(
+            'bank' => 'ABC',
+            'bank_account_type' => 'PHP Savings',
+            'bank_account_name' => 'hello sci',
+            'bank_account_number' => '000002345678901'
+          )
         )
       );
 
       $result = $this->remittance->save(10876, $post_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
     }
 
     public function testCompute(){
@@ -39,17 +42,18 @@
       );
 
       $result = $this->remittance->compute(10876, $post_data);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
+      // echo $result;
     }
 
     public function testShowAll(){
       $result = $this->remittance->showAll(10876);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertInternalType('array', json_decode($result));
     }
 
     public function testShowInfo(){
       $result = $this->remittance->showInfo(10876, 54050);
-      $this->assertEquals(200, $result->getStatusCode());
+      $this->assertNotNull(json_decode($result));
     }
   }//close RemittanceTest class
 ?>
