@@ -4,44 +4,44 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'clientCreator.php';
 
   class Recipient {
     var $vendorToken;
 
     function __construct($vendorToken) {
       $this->vendorToken = $vendorToken;
-    }
+    }//close constructor
 
     function testing($data) {
       $prevFunct = debug_backtrace()[1]['function'];
       if (strcmp($prevFunct, 'save') == 0){
-        if (empty($data['recipient']))
-            return ('ERROR: MISSING RECIPIENT HASH')."\n";
+        if (empty($data['recipient'])) return ('ERROR: MISSING RECIPIENT HASH')."\n";
         else if (empty($data['recipient']['first_name']))
-            return ('ERROR: MISSING FIRST NAME')."\n";
+          return ('ERROR: MISSING FIRST NAME')."\n";
         else if (empty($data['recipient']['last_name']))
-            return ('ERROR: MISSING LAST NAME')."\n";
+          return ('ERROR: MISSING LAST NAME')."\n";
         else if (empty($data['recipient']['email']))
-            return ('ERROR: MISSING EMAIL')."\n";
+          return ('ERROR: MISSING EMAIL')."\n";
         else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
-            return ('ERROR: INVALID EMAIL')."\n";
+          return ('ERROR: INVALID EMAIL')."\n";
         else if (empty($data['recipient']['mobile']))
-            return ('ERROR: MISSING MOBILE')."\n";
+          return ('ERROR: MISSING MOBILE')."\n";
       } else if (strcmp($prevFunct, 'update') == 0) {
         if (empty($data['recipient']))
-            return ('ERROR: MISSING RECIPIENT HASH')."\n";
+          return ('ERROR: MISSING RECIPIENT HASH')."\n";
         else if (empty($data['recipient']['first_name']))
-            return ('ERROR: MISSING FIRST NAME')."\n";
+          return ('ERROR: MISSING FIRST NAME')."\n";
         else if (empty($data['recipient']['last_name']))
-            return ('ERROR: MISSING LAST NAME')."\n";
+          return ('ERROR: MISSING LAST NAME')."\n";
         else if (empty($data['recipient']['email']))
-            return ('ERROR: MISSING EMAIL')."\n";
+          return ('ERROR: MISSING EMAIL')."\n";
         else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
-            return ('ERROR: INVALID EMAIL')."\n";
+          return ('ERROR: INVALID EMAIL')."\n";
         else if (empty($data['recipient']['mobile']))
-            return ('ERROR: MISSING MOBILE')."\n";
-      }
-    }
+          return ('ERROR: MISSING MOBILE')."\n";
+      }//close main else if
+    }//close function testing
 
     //get details of a recipient user from a vendor
     function showInfo($userId, $recipientId) {
@@ -51,8 +51,8 @@
         $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-          $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-          return $errMessage;
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
       }
     }//close showInfo
 
@@ -70,21 +70,21 @@
 
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
-      if(!$this->testing($data)) {
+      if(!$testVar = $this->testing($post_data)) {
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $testVar;
 
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $put_data) {
-      if(!$this->testing($data)) {
+      if(!$testVar = $this->testing($put_data)) {
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $testVar;
     }//close update
 
     //*ISSUE: not yet tested*

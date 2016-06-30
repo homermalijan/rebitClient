@@ -4,6 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
+  require 'clientCreator.php';
 
   class Remittance {
     var $vendorToken;
@@ -34,8 +35,8 @@
             return ('ERROR: MISSING PROVIDER')."\n";
         else if (empty($data['province']))
             return ('ERROR: MISSING PROVINCE')."\n";
-      }
-    }
+      }//close main else if
+    }//close testing
 
     //shows info of a remittance for a user associated to a vendor
     function showInfo($userId, $remittanceId) {
@@ -61,7 +62,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }//close show
+    }//close showAll
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {

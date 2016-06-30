@@ -37,7 +37,7 @@
         if (empty($data['user']))
             return ('ERROR: MISSING USER HASH')."\n";
       }
-    }
+    }//close testing
 
     //get vendor details based on vendorToken
     function showDetails() {
@@ -58,7 +58,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close showOne
 
     //return all users associated with this vendor
     function showAll() {
@@ -69,7 +69,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close showAll
 
     //return specific user associated with this vendor via given email
     function showByEmail($userEmail) {
@@ -81,7 +81,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close showByEmail
 
     //get details of a credit given a creditId
     function showCreditInfo($creditId) {
@@ -94,7 +94,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close showCreditInfo
 
     //get credit transaction of a given data
     function showCreditTransactions() {
@@ -107,7 +107,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close showCreditTransaction
 
     //add user to this vendor
     function saveUser($data) {
@@ -116,7 +116,7 @@
         return $response->getBody();
       }
       return $this->testing($data);
-    }
+    }//close saveUser
 
     //uploads new image for a user given a userId
     function uploadPhoto($userId, $encodedImage) {
@@ -127,7 +127,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close uploadPhoto
 
     //uploads new image for a user given a userId
     function uploadProofOfResidence($userId, $encodedImage) {
@@ -138,7 +138,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close uploadProofOfResidence
 
     //update vendor attributes with given params
     function update($data) {
@@ -147,7 +147,7 @@
         return $response->getBody();
       }
       return $this->testing($data);
-    }
+    }//close update
 
     //update user with given userId with given put_data
     function updateUser($userId, $put_data) {
@@ -156,7 +156,7 @@
         return $response->getBody();
       }
       return $this->testing->getBody();
-    }
+    }//close updateUser
 
     //updates password of a user given the old password, new password, and new password confirmation
     //new password and new password confirmation must match
@@ -168,7 +168,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
+    }//close updateUserPassword
 
     //deletes user with userId
     function destroyUser($userId) {
@@ -179,8 +179,7 @@
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
-    }
-	}//close Vendor class
+    }//close destroyUser
 
-//close main php
+	}//close Vendor class
 ?>
