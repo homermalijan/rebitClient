@@ -4,13 +4,43 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
 
   class Recipient {
     var $vendorToken;
 
     function __construct($vendorToken) {
       $this->vendorToken = $vendorToken;
+    }
+
+    function testing($data) {
+      $prevFunct = debug_backtrace()[1]['function'];
+      if (strcmp($prevFunct, 'save') == 0){
+        if (empty($data['recipient']))
+            return ('ERROR: MISSING RECIPIENT HASH')."\n";
+        else if (empty($data['recipient']['first_name']))
+            return ('ERROR: MISSING FIRST NAME')."\n";
+        else if (empty($data['recipient']['last_name']))
+            return ('ERROR: MISSING LAST NAME')."\n";
+        else if (empty($data['recipient']['email']))
+            return ('ERROR: MISSING EMAIL')."\n";
+        else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
+            return ('ERROR: INVALID EMAIL')."\n";
+        else if (empty($data['recipient']['mobile']))
+            return ('ERROR: MISSING MOBILE')."\n";
+      } else if (strcmp($prevFunct, 'update') == 0) {
+        if (empty($data['recipient']))
+            return ('ERROR: MISSING RECIPIENT HASH')."\n";
+        else if (empty($data['recipient']['first_name']))
+            return ('ERROR: MISSING FIRST NAME')."\n";
+        else if (empty($data['recipient']['last_name']))
+            return ('ERROR: MISSING LAST NAME')."\n";
+        else if (empty($data['recipient']['email']))
+            return ('ERROR: MISSING EMAIL')."\n";
+        else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
+            return ('ERROR: INVALID EMAIL')."\n";
+        else if (empty($data['recipient']['mobile']))
+            return ('ERROR: MISSING MOBILE')."\n";
+      }
     }
 
     //get details of a recipient user from a vendor
@@ -30,35 +60,28 @@
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        $errMessage = json_decode($e->getResponse()->getBody(), true)."\n";
         return $errMessage;
       }
     }//close show
 
     //create a new recipient from a user to a new vendor
     function save($userId, $post_data) {
-      try{
+      if(!$this->testing($data)) {
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
-        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-        $data = json_encode($body['recipient']); // encodes back to json with out the user key
-        return $data;
-      } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        return $response->getBody();
       }
+      return $this->testing($data);
+
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $put_data) {
-      try{
+      if(!$this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
-        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-        $data = json_encode($body['recipient']); // encodes back to json with out the user key
-        return $data;
-      } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        return $response->getBody();
       }
+      return $this->testing($data);
     }//close update
 
     //*ISSUE: not yet tested*

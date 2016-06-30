@@ -15,12 +15,35 @@
 			$this->vendorToken = $vendorToken;
 		}//close constructor
 
+    function testing($data) {
+      $prevFunct = debug_backtrace()[1]['function'];
+      if (strcmp($prevFunct, 'saveUser') == 0){
+        if (empty($data['user']))
+            return ('ERROR: MISSING USER HASH')."\n";
+        else if (empty($data['user']['first_name']))
+            return ('ERROR: MISSING FIRST NAME')."\n";
+        else if (empty($data['user']['last_name']))
+            return ('ERROR: MISSING LAST NAME')."\n";
+        else if (empty($data['user']['email']))
+            return ('ERROR: MISSING EMAIL')."\n";
+        else if (!filter_var($data['user']['email'], FILTER_VALIDATE_EMAIL))
+            return ('ERROR: INVALID EMAIL')."\n";
+      } else if (strcmp($prevFunct, 'update') == 0) {
+        if (empty($data['vendor']))
+            return ('ERROR: MISSING VENDOR HASH')."\n";
+        else if (!filter_var($data['vendor']['email'], FILTER_VALIDATE_EMAIL))
+            return ('ERROR: INVALID EMAIL');
+      } else if (strcmp($prevFunct, 'update') == 0) {
+        if (empty($data['user']))
+            return ('ERROR: MISSING USER HASH')."\n";
+      }
+    }
+
     //get vendor details based on vendorToken
     function showDetails() {
       $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
-      // $response = json_decode($response->getBody(), true);
-      // $response = json_encode($response['vendor']);
-      //return json object
+      $response = json_decode($response->getBody(), true);
+      $response = json_encode($response['vendor']);
       return $response;
     }//close getVendor
 
@@ -28,8 +51,8 @@
     function showOne($userId) {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId");
-        // $response = json_encode($response['user']);
-        // $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['user']);
+        $response = json_decode($response->getBody(), true);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -41,7 +64,7 @@
     function showAll() {
       try{
         $response = clientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
-        return $response;//->getBody();
+        return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -64,8 +87,8 @@
     function showCreditInfo($creditId) {
       try{
         $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits/$creditId");
-        // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-        // $response = json_encode($response['credit']); // encodes back to json with out the user key
+        $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $response = json_encode($response['credit']); // encodes back to json with out the user key
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -77,8 +100,8 @@
     function showCreditTransactions() {
       try{
         $response = clientCreator::getInstance()->request('GET', "vendors/$this->vendorToken/credits");
-        // $response = json_decode($response->getBody(), true);  //decodes the resposnce body
-        // $response = json_encode($response['credit']); // encodes back to json with out the user key
+        $response = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $response = json_encode($response['credit']); // encodes back to json with out the user key
         return $response;
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
@@ -87,9 +110,12 @@
     }
 
     //add user to this vendor
-    function saveUser($post_data) {
-      $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $post_data]);
-      return $response;//->getBody();
+    function saveUser($data) {
+      if(!$this->testing($data)) {
+        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $data]);
+        return $response->getBody();
+      }
+      return $this->testing($data);
     }
 
     //uploads new image for a user given a userId
@@ -115,25 +141,21 @@
     }
 
     //update vendor attributes with given params
-    function update($put_data) {
-      try{
-        $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $put_data]);
-        return $response;//->getBody();
-      } catch (GuzzleHttp\Exception\ServerException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+    function update($data) {
+      if(!$this->testing($data)) {
+        $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $data]);
+        return $response->getBody();
       }
+      return $this->testing($data);
     }
 
     //update user with given userId with given put_data
     function updateUser($userId, $put_data) {
-      try{
+      if(!$this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
-        return $response;//->getBody();
-      } catch (GuzzleHttp\Exception\ServerException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        return $response->getBody();
       }
+      return $this->testing->getBody();
     }
 
     //updates password of a user given the old password, new password, and new password confirmation
@@ -141,23 +163,23 @@
     function updateUserPassword($userId, $put_data) {
       try{
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", $put_data);
-        return $response;//->getBody();
+        return $response->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
     }
 
+    //deletes user with userId
     function destroyUser($userId) {
       try{
         $response = clientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
-        return $response;//->getBody();
+        return $response->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
       }
     }
-
 	}//close Vendor class
 
 //close main php

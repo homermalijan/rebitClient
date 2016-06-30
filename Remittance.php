@@ -4,7 +4,6 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'clientCreator.php';
 
   class Remittance {
     var $vendorToken;
@@ -12,6 +11,31 @@
     function __construct($vendorToken) {
       $this->vendorToken = $vendorToken;
     }//close constructor
+
+    function testing($data) {
+      $prevFunct = debug_backtrace()[1]['function'];
+      if (strcmp($prevFunct, 'save') == 0){
+        if (empty($data['recipient_id']))
+            return ('ERROR: MISSING RECIPIENT ID')."\n";
+        else if (empty($data['remittance']['amount']))
+            return ('ERROR: MISSING AMOUNT')."\n";
+        else if (empty($data['remittance']['currency']))
+            return ('ERROR: MISSING CURRENCY')."\n";
+        else if (empty($data['remittance']['strategy']))
+            return ('ERROR: MISSING STRATEGY')."\n";
+      } else if (strcmp($prevFunct, 'compute') == 0) {
+        if (empty($data['amount']))
+            return ('ERROR: MISSING AMOUNT')."\n";
+        else if (empty($data['currenct']))
+            return ('ERROR: MISSING CURRENCY')."\n";
+        else if (empty($data['strategy']))
+            return ('ERROR: MISSING STRATEGY')."\n";
+        else if (empty($data['provider']))
+            return ('ERROR: MISSING PROVIDER')."\n";
+        else if (empty($data['province']))
+            return ('ERROR: MISSING PROVINCE')."\n";
+      }
+    }
 
     //shows info of a remittance for a user associated to a vendor
     function showInfo($userId, $remittanceId) {
