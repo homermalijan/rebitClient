@@ -13,7 +13,9 @@
       $this->vendorToken = $vendorToken;
     }//close constructor
 
+    //test the parameters for post and put requests
     function testing($data) {
+      //gets the name of function that called this test
       $prevFunct = debug_backtrace()[1]['function'];
       $currencies = array(
         'PHP', 'USD', 'CAD', 'JPY', 'AUD', 'SGD', 'HKD', 'KRW',
@@ -68,49 +70,56 @@
         'Surigao del Sur', 'Tarlac', 'Tawi-Tawi', 'Zambales', 'Zamboanga',
         'Zamboanga del Norte', 'Zamboanga del Sur'
       );
-
+      //this test is for the parameters of save function
       if (strcmp($prevFunct, 'save') == 0) {
+        //checks the the validity of required parameters
         if (empty($data['recipient_id']))
-            return ('ERROR: MISSING RECIPIENT ID')."\n";
+            return "ERROR: MISSING RECIPIENT ID\n";
         if (empty($data['remittance']))
             return "ERROR: MISSING REMITTANCE HASH\n";
         if (empty($data['remittance']['amount']))
-            return ('ERROR: MISSING AMOUNT')."\n";
+            return "ERROR: MISSING AMOUNT\n";
         if (empty($data['remittance']['currency']))
-            return ('ERROR: MISSING CURRENCY CODE')."\n";
+            return "ERROR: MISSING CURRENCY CODE\n";
         if (!in_array($data['remittance']['currency'], $currencies))
-            return ('ERROR: INVALID CURRENCY CODE')."\n";
+            return "ERROR: INVALID CURRENCY CODE\n";
         if (empty($data['remittance']['strategy']))
-            return ('ERROR: MISSING STRATEGY')."\n";
+            return "ERROR: MISSING STRATEGY\n";
         if (!in_array($data['remittance']['strategy'], $strategies))
-            return ('ERROR: INVALID STRATEGY')."\n";
+            return "ERROR: INVALID STRATEGY\n";
+        //checks if it is a valid url
         if (!empty($data['remittance']['callback_url'])) {
             $callback_url = $data['remittance']['callback_url'];
             if (!filter_var($callback_url, FILTER_VALIDATE_URL))
-              return ('ERROR: INVALID CALLBACK URL')."\n";
+              return "ERROR: INVALID CALLBACK URL\n";
         }
         if (empty($data['remittance']['remittance_details']))
-            return ('ERROR: MISSING REMITTANCE DETAILS')."\n";
+            return "ERROR: MISSING REMITTANCE DETAILS\n";
+        //variable is used for brevity
         $remit_details = $data['remittance']['remittance_details'];
+        //if bank is the strategy of the remittance
         if (strcmp($data['remittance']['strategy'], 'bank') == 0) {
+            //checks other fields not required to the strategy bank
             if(!empty($remit_details['pickup']) ||
                !empty($remit_details['pickup'])) {
                  return "ERROR: FIELD UNMATCHED FOR STRATEGY\n";
             }
             if(empty($remit_details['bank']))
-              return ('ERROR: MISSING BANK NAME')."\n";
+              return "ERROR: MISSING BANK NAME\n";
             if(!in_array($remit_details['bank'], $banks))
-              return ('ERROR: INVALID BANK NAME')."\n";
+              return "ERROR: INVALID BANK NAME\n";
             if(empty($remit_details['bank_account_type']))
-              return ('ERROR: MISSING BANK ACCOUNT TYPE')."\n";
+              return "ERROR: MISSING BANK ACCOUNT TYPE\n";
             if(!in_array($remit_details['bank_account_type'], $bank_acc_type))
-              return ('ERROR: INVALID BANK ACCOUNT TYPE')."\n";
+              return "ERROR: INVALID BANK ACCOUNT TYPE\n";
             if(empty($remit_details['bank_account_name']))
-              return ('ERROR: MISSING BANK ACCOUNT NAME')."\n";
+              return "ERROR: MISSING BANK ACCOUNT NAME\n";
             if(empty($remit_details['bank_account_number']))
-              return ('ERROR: MISSING BANK ACCOUNT NUMBER')."\n";
+              return "ERROR: MISSING BANK ACCOUNT NUMBER\n";
         }
+        //if delivery is the strategy of the remittance
         if (strcmp($data['remittance']['strategy'], 'delivery') == 0) {
+            //checks other fields not required to the strategy delivery
             if(!empty($remit_details['bank']) ||
                !empty($remit_details['bank_account_type']) ||
                !empty($remit_details['bank_account_name']) ||
@@ -119,11 +128,13 @@
                  return "ERROR: FIELD UNMATCHED FOR STRATEGY\n";
             }
             if(empty($remit_details['delivery']))
-              return ('ERROR: MISSING DELIVERY PROVIDER NAME')."\n";
+              return "ERROR: MISSING DELIVERY PROVIDER NAME\n";
             if(strcmp($remit_details['delivery'], 'LBCPP') == 0)
-              return ('ERROR: INVALID DELIVERY PROVIDER NAME')."\n";
+              return "ERROR: INVALID DELIVERY PROVIDER NAME\n";
         }
+        //if pickup is the strategy of the remittance
         if (strcmp($data['remittance']['strategy'], 'pickup') == 0) {
+            //checks other fields not required for the strategy pickup
             if(!empty($remit_details['bank']) ||
                !empty($remit_details['bank_account_type']) ||
                !empty($remit_details['bank_account_name']) ||
@@ -132,31 +143,33 @@
                  return "ERROR: FIELD UNMATCHED FOR STRATEGY\n";
             }
             if(empty($remit_details['pickup']))
-              return ('ERROR: MISSING PICKUP PROVIDER NAME')."\n";
+              return "ERROR: MISSING PICKUP PROVIDER NAME\n";
             if(!in_array($remit_details['pickup'], $pick_up_providers))
-              return ('ERROR: INVALID PICKUP PROVIDER NAME')."\n";
+              return "ERROR: INVALID PICKUP PROVIDER NAME\n";
         }
+        //test for the params of compute remittance
       } else if (strcmp($prevFunct, 'compute') == 0) {
+        //checks the validity of each parameter
         if (empty($data['amount']))
-            return ('ERROR: MISSING AMOUNT')."\n";
+            return "ERROR: MISSING AMOUNT\n";
         if (!ctype_digit($data['amount']))
             return "ERROR: AMOUNT IS NOT A NUMBER\n";
         if (empty($data['currency']))
-            return ('ERROR: MISSING CURRENCY CODE')."\n";
+            return "ERROR: MISSING CURRENCY CODE\n";
         if (!in_array($data['currency'], $currencies))
-            return ('ERROR: INVALID CURRENCY CODE')."\n";
+            return "ERROR: INVALID CURRENCY CODE\n";
         if (empty($data['strategy']))
-            return ('ERROR: MISSING STRATEGY')."\n";
+            return "ERROR: MISSING STRATEGY\n";
         if (!in_array($data['strategy'], $strategies))
-            return ('ERROR: INVALID STRATEGY')."\n";
+            return "ERROR: INVALID STRATEGY\n";
         if (empty($data['provider']))
-            return ('ERROR: MISSING REMITTANCE PROVIDER SLUG')."\n";
+            return "ERROR: MISSING REMITTANCE PROVIDER SLUG\n";
         if (!in_array($data['provider'], $remit_provider_slugs))
-            return ('ERROR: INVALID REMITTANCE PROVIDER SLUG')."\n";
+            return "ERROR: INVALID REMITTANCE PROVIDER SLUG\n";
         if (empty($data['province']))
-            return ('ERROR: MISSING PROVINCE')."\n";
+            return "ERROR: MISSING PROVINCE\n";
         if (!in_array($data['province'], $provinces))
-            return ('ERROR: INVALID PHILIPPINE PROVINCE')."\n";
+            return "ERROR: INVALID PHILIPPINE PROVINCE\n";
       }//close main else if
     }//close testing
 
@@ -181,8 +194,8 @@
         $response = json_encode($response['remittance_ids']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
-        return $errMessage;
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
       }
     }//close showAll
 
@@ -204,16 +217,16 @@
       return $test;
     }//close compute
 
-    //deletes a remittance given a vendor token, user id, and remittance id
-    // function destroy($userId, $remittanceId) {
-    //   try {
-    //     $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
-    //     return $response->getBody();
-    //   } catch(GuzzleHttp\Exception\ClientException $e) {
-    //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-    //     return $errMessage;
-    //   }
-    // }//close destroy
+    // deletes a remittance given a vendor token, user id, and remittance id
+    function destroy($userId, $remittanceId) {
+      try {
+        $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
+        return $response->getBody();
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $error;
+      }
+    }//close destroy
 
   }//close class remittances
 ?>
