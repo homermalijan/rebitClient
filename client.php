@@ -3,37 +3,40 @@
 
   chdir(dirname(__DIR__));
 
-  // require 'vendor/autoload.php';
-  // require 'Recipient.php';
-  // require 'User.php';
+  require 'vendor/autoload.php';
+  require 'Recipient.php';
+  require 'User.php';
   require 'Vendor.php';
   require 'Remittance.php';
 
   $remit = new Remittance('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
-  // $recip = new Recipient(1);
-  // $newUser = new User ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
+  $recip = new Recipient('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X');
+  $newUser = new User ('wUVEoYSSpzzg85pHK-dLkHMGw7tkhEmd');    //new user
   $newVendor = new Vendor('xZ4A1TuPxx-Vyywo1FanrvxGH59ZCs6X'); //new vendor
 
-  // echo $newVendor->showDetails();
-  // echo $newVendor->showDetails()->getBody();
-  // echo $newUser->show()->getBody();
-  // echo $newVendor->showDetails();
+  // echo $newUser->show();
+  // echo $newVendor->showInfo();
   // echo $newVendor->showOne(10876);
-  // echo $nr->showRemittances($newVendor->vendorToken, 10876);
-
-  $data = array(
-    'amount' => '50',
-    'currency' => 'JPY',
-    'strategy' => 'pickup',
-    'provider' => 'ABC',
-    'province' => 'Abra'
-  );
-
+  // echo $newVendor->showAll();
+  // echo $newVendor->showByEmail("jcarlo.quintos@gmail.com0");
+  // echo $newVendor->showCreditInfo();                                         --> x
+  // echo $newVendor->showCreditTransactions();                                 --> x
+  // echo $newVendor->destroyUser(12710);
   // echo $newVendor->saveUser($data);
+  // echo $newVendor->saveCredit($data);                                        --> x
   // echo $newVendor->update($data);
-  // echo $remit->save(10876, $data);
-  echo $remit->compute(10876, $data);
-  // echo $remit->showAll(10876);
-  // echo $nre->save(10876, $put_data)->getStatusCode();
+  // echo $newVendor->updateUser(10876, $data)
+  // echo $newVendor->updateUserPassword(12636, $data);                         --> x
 
+  // echo $remit->showAll(10876);
+  // echo $remit->showInfo(10876, 53857);
+  // echo $remit->save(10876, $data);
+  // echo $remit->compute(10876, $data);
+  // echo $remit->destroy(10876, 51486);
+
+  // echo $recip->showAll(10876);
+  // echo $recip->showInfo(10876, 48521);
+  // echo $recip->save(10876, $data);
+  // echo $recip->update(10876, 49247, $data);
+  // echo $recip->destroy(10876, 49247);                                        --> x
 ?>

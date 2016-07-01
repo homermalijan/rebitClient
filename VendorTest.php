@@ -12,8 +12,8 @@
       $this->vendor = NULL;
     }
 
-    public function testShowDetails() {
-      $result = $this->vendor->showDetails();
+    public function testShowInfo() {
+      $result = $this->vendor->showInfo();
       $this->assertEquals(200, $result->getStatusCode());
     }
 
@@ -130,5 +130,5 @@
 
 
 
-  }//close RemittanceTest class
+  }//close VendorTest class
 ?>

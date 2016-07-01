@@ -4,7 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  require 'ClientCreator.php';
+  // require 'ClientCreator.php';
 
   class Recipient {
     var $vendorToken;
@@ -14,32 +14,59 @@
     }//close constructor
 
     function testing($data) {
+      $provinces = array(
+        'Abra', 'Agusan del Norte', 'Agusan del Sur', 'Aklan',
+        'Albay', 'Angeles', 'Antique', 'Apayao', 'Aurora', 'Baguio',
+        'Basilan', 'Bataan', 'Batanes', 'Batangas', 'Benguet', 'Biliran',
+        'Bohol', 'Bukidnon', 'Bulacan', 'Cagayan', 'Camarines Norte',
+        'Camarines Sur', 'Camiguin', 'Capiz', 'Catanduanes', 'Cavite',
+        'Cebu', 'Compostela Valley', 'Cotabato', 'Dagupan', 'Davao Occidental',
+        'Davao Oriental', 'Davao del Norte', 'Davao del Sur', 'Dinagat Islands',
+        'Eastern Samar', 'Guimaras', 'Ifugao', 'Ilocos Norte', 'Ilocos Sur',
+        'Iloilo', 'Isabela', 'Kalinga', 'La Union', 'Laguna', 'Lanao del Norte',
+        'Lanao del Sur', 'Leyte', 'Lucena', 'Maguindanao', 'Marinduque',
+        'Masbate', 'Metro Manila', 'Mindoro Occidental', 'Mindoro Oriental',
+        'Misamis Occidental', 'Misamis Oriental', 'Mountain Province', 'Naga',
+        'Negros Occidental', 'Negros Oriental', 'Northern Samar', 'Nueva Ecija',
+        'Nueva Vizcaya', 'Olongapo', 'Palawan', 'Pampanga', 'Pangasinan',
+        'Puerto Princesa', 'Quezon', 'Quirino', 'Rizal', 'Romblon', 'Samar',
+        'Santiago', 'Sarangani', 'Siquijor', 'Sorsogon', 'South Cotabato',
+        'Southern Leyte', 'Sultan Kudarat', 'Sulu', 'Surigao del Norte',
+        'Surigao del Sur', 'Tarlac', 'Tawi-Tawi', 'Zambales', 'Zamboanga',
+        'Zamboanga del Norte', 'Zamboanga del Sur'
+      );
+
       $prevFunct = debug_backtrace()[1]['function'];
       if (strcmp($prevFunct, 'save') == 0){
-        if (empty($data['recipient'])) return ('ERROR: MISSING RECIPIENT HASH')."\n";
-        else if (empty($data['recipient']['first_name']))
-          return ('ERROR: MISSING FIRST NAME')."\n";
-        else if (empty($data['recipient']['last_name']))
-          return ('ERROR: MISSING LAST NAME')."\n";
-        else if (empty($data['recipient']['email']))
-          return ('ERROR: MISSING EMAIL')."\n";
-        else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
-          return ('ERROR: INVALID EMAIL')."\n";
-        else if (empty($data['recipient']['mobile']))
-          return ('ERROR: MISSING MOBILE')."\n";
+        if (empty($data['recipient']))
+          return "ERROR: MISSING RECIPIENT HASH\n";
+        if (empty($data['recipient']['first_name']))
+          return "ERROR: MISSING FIRST NAME\n";
+        if (empty($data['recipient']['last_name']))
+          return "ERROR: MISSING LAST NAME\n";
+        if (empty($data['recipient']['mobile']))
+          return "ERROR: MISSING MOBILE\n";
+        if (!empty($data['recipient']['email']))
+          if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
+            return "ERROR: INVALID EMAIL\n";
+        if (!empty($data['recipient']['province']))
+          if (!in_array($data['recipient']['province'], $provinces))
+            return "ERROR: INVALID PHILIPPINE PROVINCE\n";
       } else if (strcmp($prevFunct, 'update') == 0) {
         if (empty($data['recipient']))
-          return ('ERROR: MISSING RECIPIENT HASH')."\n";
-        else if (empty($data['recipient']['first_name']))
-          return ('ERROR: MISSING FIRST NAME')."\n";
-        else if (empty($data['recipient']['last_name']))
-          return ('ERROR: MISSING LAST NAME')."\n";
-        else if (empty($data['recipient']['email']))
-          return ('ERROR: MISSING EMAIL')."\n";
-        else if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
-          return ('ERROR: INVALID EMAIL')."\n";
-        else if (empty($data['recipient']['mobile']))
-          return ('ERROR: MISSING MOBILE')."\n";
+          return "ERROR: MISSING RECIPIENT HASH\n";
+        // if (empty($data['recipient']['first_name']))
+        //   return "ERROR: MISSING FIRST NAME\n";
+        // if (empty($data['recipient']['last_name']))
+        //   return "ERROR: MISSING LAST NAME\n";
+        // if (empty($data['recipient']['mobile']))
+        //   return "ERROR: MISSING MOBILE\n";
+        if (!empty($data['recipient']['email']))
+          if (!filter_var($data['recipient']['email'], FILTER_VALIDATE_EMAIL))
+            return "ERROR: INVALID EMAIL\n";
+        if (!empty($data['recipient']['province']))
+          if (!in_array($data['recipient']['province'], $provinces))
+            return "ERROR: INVALID PHILIPPINE PROVINCE\n";
       }//close main else if
     }//close function testing
 
@@ -51,8 +78,8 @@
         $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $error;
       }
     }//close showInfo
 
@@ -60,11 +87,10 @@
     function showAll($userId) {
       try{
         $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users/$userId/recipients");
-        $response = json_decode($response->getBody(), true);
-        return $response;
+        return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)."\n";
-        return $errMessage;
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
       }
     }//close show
 
@@ -87,16 +113,16 @@
     }//close update
 
     //*ISSUE: not yet tested*
-    //delete a recipient from put_data via recipient_id of auser belonging to a vendor
-    // function destroy($userId, $recipientId) {
-    //   try{
-    //     $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
-    //     return $response->getBody();
-    //   } catch(GuzzleHttp\Exception\ClientException $e) {
-    //     $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-    //     return $errMessage;
-    //   }
-    // }//close destroy
+    // delete a recipient from put_data via recipient_id of auser belonging to a vendor
+    function destroy($userId, $recipientId) {
+      try{
+        $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
+        return $response->getBody();
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $error;
+      }
+    }//close destroy
 
   }//close VendorRecipient class
 ?>
