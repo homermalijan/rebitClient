@@ -44,7 +44,6 @@
 
       $result = $this->remittance->compute(10876, $post_data);
       $this->assertNotNull(json_decode($result));
-      // echo $result;
     }
 
     public function testShowAll(){

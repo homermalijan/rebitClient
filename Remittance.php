@@ -201,18 +201,28 @@
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {
-      if (!$test = $this->testing($data))  {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
-        return $response->getBody();
+      try{
+        if (!$test = $this->testing($data))  {
+          $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
+          return $response->getBody();
+        }
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
       }
       return $test;
     }//close save
 
     //compute remmitance of for a user given a set of data
     function compute($userId, $data) {
-      if (!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $data]);
-        return $response->getBody();
+      try{
+        if (!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $data]);
+          return $response->getBody();
+        }
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
       }
       return $test;
     }//close compute

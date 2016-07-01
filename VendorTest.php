@@ -13,37 +13,25 @@
     }
 
     public function testShowInfo() {
+      echo "\ntesting showInfo: ";
       $result = $this->vendor->showInfo();
       $this->assertNotNull(json_decode($result));
-      // $this->assertEquals(200, $result->getStatusCode());
     }
 
     public function testShowOne() {
       $result = $this->vendor->showOne(10876);
       $this->assertNotNull(json_decode($result));
-      // $this->assertEquals(200, $result->getStatusCode());
     }
 
     public function testShowAll() {
       $result = $this->vendor->showAll();
       $this->assertInternalType('array', json_decode($result));
-      // $this->assertEquals(200, $result->getStatusCode());
     }
 
     public function testShowByEmail() {
       $result = $this->vendor->showByEmail('jomel150@yahoo.com');
       $this->assertNotNull(json_decode($result));
     }
-
-    // public function testShowCreditInfo() {
-    //   $result = $this->vendor->showCreditInfo();
-    //   $this->asserEquals(200, $result->getStatusCode());
-    // }
-
-    // public function testShowCreditTransaction() {
-    //   $result = $this->vendor->showCreditTransactions();
-    //   $this->assertEquals(200, $result->getStatusCode());
-    // }
 
     public function testSaveUser() {
       $data = array(
@@ -68,18 +56,7 @@
 
       $result = $this->vendor->saveUser($data);
       $this->assertNotNull(json_decode($result));
-      // $this->assertEquals(200, $result->getStatusCode());
     }
-
-    // public function testUploadPhoto(){
-    //   $result = $this->vendor->uploadPhoto(10876, );
-    //   $this->assertEquals(200, $result->getStatusCode());
-    // }
-    //
-    // public function testUploadProofOfResidence(){
-    //   $result = $this->vendor->uploadProofOfResidence(10876, );
-    //   $this->assertEquals(200, $result->getStatusCode());
-    // }
 
     public function testUpdate(){
       $data = array(
@@ -99,7 +76,6 @@
         ),
       );
       $result = $this->vendor->update($data);
-      // $this->assertEquals(200, $result->getStatusCode());
     }
 
     public function testUpdateUser(){
@@ -123,16 +99,12 @@
         )
       );
       $result = $this->vendor->updateUser(10876, $data);
-      // $this->assertEquals(200, $result->getStatusCode());
     }
 
     public function destroyUser() {
       $result = $this->vendor->destroyUser(12711);
       // $this->assertEquals(200, $result->getStatusCode());
     }
-
-
-
 
   }//close VendorTest class
 ?>

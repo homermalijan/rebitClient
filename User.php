@@ -15,10 +15,15 @@
 
     //gets user given a valid user token
     function show() {
-      $response = ClientCreator::getInstance()->request('GET', "user?token=$this->userToken");
-      $body = json_decode($response->getBody(), true);  //decodes the resposnce body
-      $data = json_encode($body['user']); // encodes back to json with out the user key
-      return $data;
+      try{
+        $response = ClientCreator::getInstance()->request('GET', "user?token=$this->userToken");
+        $body = json_decode($response->getBody(), true);  //decodes the resposnce body
+        $data = json_encode($body['user']); // encodes back to json with out the user key
+        return $data;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $errMessage;
+      }
     }//close show
 
     //updates user given a valid user token

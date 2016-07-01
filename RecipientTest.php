@@ -42,7 +42,7 @@
 
     public function testShowAll(){
       $result = $this->recipient->showAll(10876);
-      $this->assertInternalType('array', $result);
+      $this->assertInternalType('array', json_decode($result));
     }//close testShowAll
 
     public function testShowInfo(){
