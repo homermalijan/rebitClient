@@ -69,22 +69,21 @@
     }//close show
 
     //create a new recipient from a user to a new vendor
-    function save($userId, $post_data) {
-      if(!$testVar = $this->testing($post_data)) {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $post_data]);
+    function save($userId, $data) {
+      if(!$test = $this->testing($data)) {
+        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $data]);
         return $response->getBody();
       }
-      return $testVar;
-
+      return $test;
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
-    function update($userId, $recipientId, $put_data) {
-      if(!$testVar = $this->testing($put_data)) {
-        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $put_data]);
+    function update($userId, $recipientId, $data) {
+      if(!$test = $this->testing($data)) {
+        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $data]);
         return $response->getBody();
       }
-      return $testVar;
+      return $test;
     }//close update
 
     //*ISSUE: not yet tested*

@@ -33,7 +33,7 @@
             return ('ERROR: MISSING VENDOR HASH')."\n";
         else if (!filter_var($data['vendor']['email'], FILTER_VALIDATE_EMAIL))
             return ('ERROR: INVALID EMAIL');
-      } else if (strcmp($prevFunct, 'update') == 0) {
+      } else if (strcmp($prevFunct, 'updateUser') == 0) {
         if (empty($data['user']))
             return ('ERROR: MISSING USER HASH')."\n";
       }
@@ -111,18 +111,18 @@
 
     //add user to this vendor
     function saveUser($data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users", ['json' => $data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $test;
     }//close saveUser
 
     //uploads new image for a user given a userId
     function uploadPhoto($userId, $encodedImage) {
       try{
         $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_photo_id", ['file' => $encodedImage]);
-        return $response;//->getBody();
+        return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -133,7 +133,7 @@
     function uploadProofOfResidence($userId, $encodedImage) {
       try{
           $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
-          return $response;//->getBody();
+          return $response->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
         $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
         return $errMessage;
@@ -142,20 +142,20 @@
 
     //update vendor attributes with given params
     function update($data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $data]);
         return $response->getBody();
       }
-      return $this->testing($data);
+      return $test;
     }//close update
 
     //update user with given userId with given put_data
     function updateUser($userId, $put_data) {
-      if(!$this->testing($data)) {
+      if(!$test = $this->testing($data)) {
         $response = clientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $put_data]);
         return $response->getBody();
       }
-      return $this->testing->getBody();
+      return $test;
     }//close updateUser
 
     //updates password of a user given the old password, new password, and new password confirmation
