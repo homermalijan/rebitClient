@@ -181,7 +181,7 @@
         $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        return "ERROR 404: Could not find that page.\n";
+        return "SERVER ERROR.\n";
       }
     }//close showInfo
 
@@ -193,7 +193,7 @@
         $response = json_encode($response['remittance_ids']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        return "ERROR 404: Could not find that page.\n";
+        return "SERVER ERROR.\n";
       }
     }//close showAll
 
@@ -206,7 +206,7 @@
         }
         return $test;
       } catch (GuzzleHttp\Exception\ClientException $e) {
-        return "ERROR 404: Could not find that page.\n";
+        return "SERVER ERROR.\n";
       }
     }//close save
 
@@ -219,7 +219,7 @@
         }
         return $test;
       } catch (GuzzleHttp\Exception\ClientException $e) {
-        return "ERROR 404: Could not find that page.\n";
+        return "SERVER ERROR.\n";
       }
     }//close compute
 
@@ -229,7 +229,7 @@
         $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        return "ERROR 404: Could not find that page.\n";
+        return "SERVER ERROR.\n";
       }
     }//close destroy
 

@@ -34,9 +34,22 @@
   // echo $remit->compute(10876, $data);
   // echo $remit->destroy(10876, 51486);
 
-  echo $recip->showAll(876);
+  // echo $recip->showAll(876);
   // echo $recip->showInfo(10876, 48521);
-  // echo $recip->save(10876, $data);
+
+  $data = array(
+    'recipient'=>array(
+      'first_name'=>'JC Carlo',
+      'last_name'=>'Quintos',
+      'mobile'=>'09179206xxx',
+      'email'=>'jdquintos@up.edu.ph',
+      'address'=>'',
+      'city'=>'',
+      'province'=>'',
+      'postal_code'=>'',
+    )
+  );
+  echo $recip->save(1076, $data);
   // echo $recip->update(10876, 49247, $data);
   // echo $recip->destroy(10876, 49247);                                        --> x
 ?>

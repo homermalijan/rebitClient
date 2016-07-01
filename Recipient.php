@@ -78,8 +78,7 @@
         $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $e->getResponse()->getBody();
+        return "SERVER ERROR.\n";
       }
     }//close showInfo
 
@@ -91,27 +90,34 @@
         $response = json_encode($response);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
-        return $e->getResponse()->getBody();
+        return "SERVER ERROR.\n";
       }
     }//close show
 
     //create a new recipient from a user to a new vendor
     function save($userId, $data) {
-      if(!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $data]);
-        return $response->getBody();
+      try{
+        if(!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        return "SERVER ERROR.\n";
       }
-      return $test;
     }//close save
 
     //update datails of a recipient from put_data via recipient_id of auser belonging to a vendor
     function update($userId, $recipientId, $data) {
-      if(!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $data]);
-        return $response->getBody();
+      try{
+        if(!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        return "SERVER ERROR.\n";
       }
-      return $test;
     }//close update
 
     //*ISSUE: not yet tested*
@@ -121,8 +127,7 @@
         $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/recipients/$recipientId");
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $error;
+        return "SERVER ERROR.\n";
       }
     }//close destroy
 
