@@ -181,8 +181,7 @@
         $response = json_encode($response['recipient']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $errMessage = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $errMessage;
+        return "ERROR 404: Could not find that page.\n";
       }
     }//close showInfo
 
@@ -194,27 +193,34 @@
         $response = json_encode($response['remittance_ids']);
         return $response;
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
-        return $error;
+        return "ERROR 404: Could not find that page.\n";
       }
     }//close showAll
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {
-      if (!$test = $this->testing($data))  {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
-        return $response->getBody();
+      try {
+        if (!$test = $this->testing($data))  {
+          $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        return "ERROR 404: Could not find that page.\n";
       }
-      return $test;
     }//close save
 
     //compute remmitance of for a user given a set of data
     function compute($userId, $data) {
-      if (!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $data]);
-        return $response->getBody();
+      try {
+        if (!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        return "ERROR 404: Could not find that page.\n";
       }
-      return $test;
     }//close compute
 
     // deletes a remittance given a vendor token, user id, and remittance id
@@ -223,8 +229,7 @@
         $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId/remittances/$remittanceId");
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
-        return $error;
+        return "ERROR 404: Could not find that page.\n";
       }
     }//close destroy
 

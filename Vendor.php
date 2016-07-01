@@ -60,10 +60,15 @@
 
     //get vendor details based on vendorToken
     function showInfo() {
-      $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
-      $response = json_decode($response->getBody(), true);
-      $response = json_encode($response['vendor']);
-      return $response;
+      try {
+        $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken");
+        $response = json_decode($response->getBody(), true);
+        $response = json_encode($response['vendor']);
+        return $response;
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
+      }
     }//close getVendor
 
     //return specific user associated with this vendor
@@ -85,7 +90,7 @@
         $response = ClientCreator::getInstance()->request('GET',"vendors/$this->vendorToken/users");
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
     }//close showAll
@@ -124,7 +129,7 @@
         $response = json_decode($response->getBody(), true);  //decodes the resposnce body
         $response = json_encode($response['credit']); // encodes back to json with out the user key
         return $response;
-      } catch (GuzzleHttp\Exception\ServerException $e) {
+      } catch (GuzzleHttp\Exception\ClientException $e) {
         $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
@@ -146,8 +151,13 @@
     }//close saveUser
 
     function saveCredit($data) {
-      $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/credits", ['json' => $data]);
-      return $response->getBody();
+      try {
+        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/credits", ['json' => $data]);
+        return $response->getBody();
+      } catch (GuzzleHttp\Exception\ServerException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        return $error;
+      }
     }
     //uploads new image for a user given a userId
     function uploadPhoto($userId, $encodedImage) {
@@ -155,7 +165,7 @@
         $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_photo_id", ['file' => $encodedImage]);
         return $response->getBody();
       } catch(GuzzleHttp\Exception\ClientException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
     }//close uploadPhoto
@@ -166,37 +176,47 @@
           $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/uploads/add_proof_of_residence", ['file' => $encodedImage]);
           return $response->getBody();
       } catch (GuzzleHttp\Exception\ServerException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
     }//close uploadProofOfResidence
 
     //update vendor attributes with given params
     function update($data) {
-      if(!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $data]);
-        return $response->getBody();
+      try {
+        if(!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+        return $error;
       }
-      return $test;
     }//close update
 
     //update user with given userId with given put_data
     function updateUser($userId, $data) {
-      if(!$test = $this->testing($data)) {
-        $response = ClientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $data]);
-        return $response->getBody();
-      }
-      return $test;
+      try {
+        if(!$test = $this->testing($data)) {
+          $response = ClientCreator::getInstance()->request('PUT', "vendors/$this->vendorToken/users/$userId", ['json' => $data]);
+          return $response->getBody();
+        }
+        return $test;
+      } catch(GuzzleHttp\Exception\ClientException $e) {
+          $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
+          return $error;
+      }//close
     }//close updateUser
 
     //updates password of a user given the old password, new password, and new password confirmation
     //new password and new password confirmation must match
     function updateUserPassword($userId, $data) {
       try{
-        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId/update_password", ['json' => $data]);
+        $response = ClientCreator::getInstance()->request('PUT',"vendors/$this->vendorToken/users/$userId", ['json' => $data]);
         return $response->getBody();
-      } catch (GuzzleHttp\Exception\ServerException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
     }//close updateUserPassword
@@ -206,8 +226,8 @@
       try{
         $response = ClientCreator::getInstance()->request('DELETE',"vendors/$this->vendorToken/users/$userId");
         return $response->getBody();
-      } catch (GuzzleHttp\Exception\ServerException $e) {
-        $error = json_decode($e->getResponse()->getBody(), true)['error']."\n";
+      } catch (GuzzleHttp\Exception\ClientException $e) {
+        $error = json_decode($e->getResponse()->getBody(), true)['errors']."\n";
         return $error;
       }
     }//close destroyUser
