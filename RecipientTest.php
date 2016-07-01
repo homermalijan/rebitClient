@@ -1,7 +1,7 @@
 <?php
   require 'Recipient.php';
 
-  class RecipientTests extends PHPUnit_Framework_TestCase{
+  class RecipientTest extends PHPUnit_Framework_TestCase{
     private $recipient;
 
     protected function setUp(){

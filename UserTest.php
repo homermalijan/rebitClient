@@ -1,7 +1,7 @@
 <?php
   require 'User.php';
 
-  class UserTests extends PHPUnit_Framework_TestCase{
+  class UserTest extends PHPUnit_Framework_TestCase{
     private $user;
 
     protected function setUp(){

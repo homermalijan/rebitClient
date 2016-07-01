@@ -2,7 +2,7 @@
 
   require 'Remittance.php';
 
-  class RemittanceTests extends PHPUnit_Framework_TestCase{
+  class RemittanceTest extends PHPUnit_Framework_TestCase{
     private $remittance;
 
     protected function setUp(){
