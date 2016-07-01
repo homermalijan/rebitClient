@@ -199,7 +199,7 @@
 
     //creates a remmitance for a user associated to a vendor
     function save($userId, $data) {
-      try {
+      try{
         if (!$test = $this->testing($data))  {
           $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances", ['json' => $data]);
           return $response->getBody();
@@ -212,7 +212,7 @@
 
     //compute remmitance of for a user given a set of data
     function compute($userId, $data) {
-      try {
+      try{
         if (!$test = $this->testing($data)) {
           $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/remittances/calculate", ['json' => $data]);
           return $response->getBody();
