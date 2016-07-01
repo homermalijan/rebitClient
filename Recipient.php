@@ -4,7 +4,7 @@
   chdir(dirname(__DIR__));
 
   require 'vendor/autoload.php';
-  // require 'ClientCreator.php';
+  require 'ClientCreator.php';
 
   class Recipient {
     var $vendorToken;
@@ -97,7 +97,7 @@
     //create a new recipient from a user to a new vendor
     function save($userId, $data) {
       if(!$test = $this->testing($data)) {
-        $response = clientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $data]);
+        $response = ClientCreator::getInstance()->request('POST',"vendors/$this->vendorToken/users/$userId/recipients", ['json' => $data]);
         return $response->getBody();
       }
       return $test;
